@@ -243,8 +243,11 @@ button:focus-visible,
   border: 1px solid var(--card-border);
   border-radius: 999px;
   background: var(--card-bg);
+  font-family: inherit;
   font-size: 0.9rem;
   font-weight: 600;
+  color: inherit;
+  cursor: pointer;
 }
 
 .chip:hover {
@@ -355,53 +358,44 @@ button:focus-visible,
   transform: translateX(-50%) translateY(0);
 }
 
-.nade-bubble {
-  position: absolute;
-  left: calc(100% + 12px);
-  bottom: 35%;
-  max-width: 240px;
-  padding: 10px 16px;
-  border-radius: 16px;
-  background: var(--toast-bg);
-  color: var(--toast-text);
-  font-size: 13px;
-  font-weight: 600;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(8px);
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-  box-shadow: 0 6px 20px var(--shadow-soft);
-  z-index: 101;
-  pointer-events: none;
+.about {
+  width: calc(100% - 40px);
+  max-width: 420px;
+  margin: auto;
+  padding: 28px;
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  background: var(--card-bg);
+  color: var(--text-dark);
+  box-shadow: 0 24px 60px var(--shadow-soft);
 }
 
-.nade-bubble::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: 100%;
-  transform: translateY(-50%);
-  border: 8px solid transparent;
-  border-right-color: var(--toast-bg);
+.about::backdrop {
+  background: rgba(20,20,20,0.55);
 }
 
-.nade-bubble.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+.about-title {
+  margin: 0 0 12px;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
 }
 
-.nadeshiko.bounce {
-  animation: nade-bounce 0.55s ease;
+.about p {
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+  color: var(--text-medium);
 }
 
-@keyframes nade-bounce {
-  0% { transform: translateY(0) scale(1, 1); }
-  30% { transform: translateY(-16px) scale(1.08, 0.92); }
-  55% { transform: translateY(0) scale(0.96, 1.05); }
-  75% { transform: translateY(-6px) scale(1.02, 0.98); }
-  100% { transform: translateY(0) scale(1, 1); }
+.about strong {
+  color: var(--text-dark);
+}
+
+.about-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
 }
 
 @media (max-width: 768px) {
@@ -449,23 +443,6 @@ button:focus-visible,
 @media (max-width: 480px) {
   .intro-tagline {
     font-size: 0.8rem;
-  }
-
-  .nade-bubble {
-    left: 40px;
-    right: auto;
-    bottom: 100%;
-    max-width: 170px;
-    white-space: normal;
-  }
-
-  .nade-bubble::after {
-    top: 100%;
-    left: 20px;
-    transform: none;
-    border: 8px solid transparent;
-    border-top-color: var(--toast-bg);
-    border-right-color: transparent;
   }
 
   .copy-toast {

@@ -1,4 +1,4 @@
-// Shared app logic: theme, clock, toast, email copy, corner characters.
+// Shared app logic: theme, clock, toast, email copy, about dialog, corner characters.
 (function () {
     'use strict';
 
@@ -52,32 +52,9 @@
         }).catch(function () {});
     }
 
-    var NADE_LINES = [
-        'Hmm! Tanoshi!! 🍡',
-        'Oishii! 🍙',
-        'Fuwafuwa~ ☁️',
-        'Minna de camping! ⛺',
-        'Yuru kyampu... 🌲',
-        'Poka poka... 😊',
-        'Mou, gohan? 🍜',
-        'Ehehe~ 🏕️'
-    ];
-    var nadeTimer = null;
-
-    function reactNadeshiko() {
-        var el = document.querySelector('.nadeshiko');
-        if (!el) return;
-        el.classList.remove('bounce');
-        void el.offsetWidth; // restart the bounce animation on rapid clicks
-        el.classList.add('bounce');
-        var bubble = document.getElementById('nadeBubble');
-        if (!bubble) return;
-        bubble.textContent = NADE_LINES[Math.floor(Math.random() * NADE_LINES.length)];
-        bubble.classList.add('show');
-        clearTimeout(nadeTimer);
-        nadeTimer = setTimeout(function () {
-            bubble.classList.remove('show');
-        }, 2400);
+    function openAbout() {
+        var dialog = document.getElementById('about');
+        if (dialog) dialog.showModal();
     }
 
     function openGallery() {
@@ -115,10 +92,18 @@
             if (themeMode === 'auto') applyTheme();
         });
 
-        var copyLink = document.querySelector('[data-copy-email]');
-        if (copyLink) copyLink.addEventListener('click', copyEmail);
+        document.querySelectorAll('[data-copy-email]').forEach(function (link) {
+            link.addEventListener('click', copyEmail);
+        });
 
-        bindCorner('nadeshiko', reactNadeshiko);
+        var about = document.getElementById('about');
+        if (about) {
+            about.addEventListener('click', function (e) {
+                if (e.target === about || e.target.closest('[data-about-close]')) about.close();
+            });
+        }
+
+        bindCorner('nadeshiko', openAbout);
         bindCorner('rin', openGallery);
     });
 })();

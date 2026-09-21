@@ -164,11 +164,21 @@
         </main>
     </div>
 
+    <dialog class="about" id="about" aria-labelledby="about-title">
+        <h2 class="about-title" id="about-title">Hi, I'm Nainne</h2>
+        <p>Developer, explorer, and camping enthusiast. I build small TUI tools and keep my Linux desktops clean.</p>
+        <p>Currently building <strong>Ringo</strong> — a niri desktop driven by a native C++ Quickshell island.</p>
+        <div class="about-actions">
+            <a class="chip" href="https://github.com/KabosuNeko" target="_blank" rel="noopener">GitHub</a>
+            <a class="chip" href="mailto:KabosuNeko@proton.me" data-copy-email>Email</a>
+            <button class="chip" type="button" data-about-close>Close</button>
+        </div>
+    </dialog>
+
     <div id="copyToast" class="copy-toast" role="status"></div>
 
-    <div class="corner-character nadeshiko" tabindex="0" role="button" aria-label="Say hi to Nadeshiko" data-tooltip="Say hi">
+    <div class="corner-character nadeshiko" tabindex="0" role="button" aria-haspopup="dialog" aria-label="About me" data-tooltip="About me">
         <img src="assets/img/nadeshiko.png" alt="">
-        <div class="nade-bubble" id="nadeBubble"></div>
     </div>
     <div class="corner-character rin" tabindex="0" role="button" aria-label="Photo gallery" data-tooltip="Open gallery">
         <img src="assets/img/rin.png" alt="">
