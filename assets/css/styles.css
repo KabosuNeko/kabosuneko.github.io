@@ -19,8 +19,8 @@
   /* gruvbox dark */
   --bg: #1d2021;
   --bg-glow: rgba(250,189,47,0.05);
-  --card-bg: #282828;
-  --card-border: rgba(235,219,178,0.16);
+  --card-bg: #32302f;
+  --card-border: rgba(235,219,178,0.2);
   --text-dark: #ebdbb2;
   --text-medium: #a89984;
   --accent: #fe8019;
@@ -217,6 +217,7 @@ button:focus-visible,
   width: 18px;
   height: 18px;
   flex: none;
+  fill: currentColor;
   color: var(--text-medium);
 }
 
@@ -254,6 +255,7 @@ button:focus-visible,
 .chip svg {
   width: 18px;
   height: 18px;
+  fill: currentColor;
 }
 
 .copy-toast {
