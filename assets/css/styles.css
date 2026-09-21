@@ -164,10 +164,6 @@ button:focus-visible,
   color: var(--text-medium);
 }
 
-.intro-bio strong {
-  color: var(--text-dark);
-}
-
 .panel {
   margin-bottom: 48px;
 }
