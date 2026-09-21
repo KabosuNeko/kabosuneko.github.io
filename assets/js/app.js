@@ -1,4 +1,4 @@
-// Shared app logic: theme, clock, toast, email copy, about dialog, corner characters.
+// Shared app logic: theme, clock, toast, email copy, Nadeshiko greeting, corner characters.
 (function () {
     'use strict';
 
@@ -52,9 +52,26 @@
         }).catch(function () {});
     }
 
-    function openAbout() {
-        var dialog = document.getElementById('about');
-        if (dialog) dialog.showModal();
+    var GREETINGS = {
+        morning: ['Ohayou!', 'Morning, camper.', 'Breakfast time.'],
+        afternoon: ['Konnichiwa!', 'Nice weather today.', 'Tea break?'],
+        evening: ['Konbanwa!', 'Campfire time.', 'Dinner smells good.'],
+        night: ['Oyasumi...', 'Still up?', 'Mata ashita!']
+    };
+    var nadeTimer = null;
+
+    function greetNadeshiko() {
+        var bubble = document.getElementById('nadeBubble');
+        if (!bubble) return;
+        var h = new Date().getHours();
+        var slot = h < 5 ? 'night' : h < 11 ? 'morning' : h < 17 ? 'afternoon' : h < 22 ? 'evening' : 'night';
+        var lines = GREETINGS[slot];
+        bubble.textContent = lines[Math.floor(Math.random() * lines.length)];
+        bubble.classList.add('show');
+        clearTimeout(nadeTimer);
+        nadeTimer = setTimeout(function () {
+            bubble.classList.remove('show');
+        }, 2600);
     }
 
     function openGallery() {
@@ -96,14 +113,7 @@
             link.addEventListener('click', copyEmail);
         });
 
-        var about = document.getElementById('about');
-        if (about) {
-            about.addEventListener('click', function (e) {
-                if (e.target === about || e.target.closest('[data-about-close]')) about.close();
-            });
-        }
-
-        bindCorner('nadeshiko', openAbout);
+        bindCorner('nadeshiko', greetNadeshiko);
         bindCorner('rin', openGallery);
     });
 })();
