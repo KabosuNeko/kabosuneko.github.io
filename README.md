@@ -11,7 +11,6 @@ Plain HTML, CSS, and vanilla JavaScript. No build step, no frameworks, no packag
 - `index.html` - landing page with projects and contact
 - `gallery.html` - photo gallery with a lightbox
 - `404.html` - themed error page
-- `robots.txt`, `sitemap.xml` - crawler basics
 - `assets/css/styles.css` - day/night theme via CSS variables
 - `assets/css/gallery.css` - gallery grid and lightbox
 - `assets/js/app.js` - shared logic (theme, clock, toast, corner characters)
