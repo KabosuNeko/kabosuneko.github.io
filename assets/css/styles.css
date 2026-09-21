@@ -221,6 +221,22 @@ button:focus-visible,
   font-weight: 700;
 }
 
+.row-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  padding: 1px 8px;
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-medium);
+}
+
 .row-desc {
   display: block;
   margin-top: 2px;
