@@ -1,4 +1,5 @@
 :root {
+  color-scheme: light;
   /* gruvbox light */
   --bg: #fbf1c7;
   --bg-glow: rgba(255,252,240,0.55);
@@ -16,6 +17,7 @@
 }
 
 [data-theme="night"] {
+  color-scheme: dark;
   /* gruvbox dark */
   --bg: #1d2021;
   --bg-glow: rgba(250,189,47,0.05);
