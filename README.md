@@ -1,39 +1,43 @@
 # Nainne
 
-A cozy personal portfolio and photo gallery, Yuru Camp themed. Static site served by GitHub Pages at https://kabosuneko.github.io/.
+Personal page and photo gallery, served as static files by GitHub Pages at
+https://kabosuneko.github.io/.
 
-## Tech
+No build step, no dependencies, no framework. Plain HTML, CSS, and JavaScript.
 
-Plain HTML, CSS, and vanilla JavaScript. No build step, no frameworks, no package.json.
+## Files
 
-## Structure
+    index.html          projects and contact
+    gallery.html        photo gallery
+    404.html            error page
+    DESIGN.md           design direction, dials, and the reason for each decision
+    assets/css/         styles.css (shared, theme tokens), gallery.css (grid, lightbox)
+    assets/js/          app.js (theme, clock, toast, greeting, star counts), gallery.js (lightbox)
+    assets/img/         logo, avatar, mascots
+    assets/gallery/     photos
 
-- `index.html` - landing page with projects and contact
-- `gallery.html` - photo gallery with a lightbox
-- `404.html` - themed error page
-- `DESIGN.md` - design direction, dials, and the reason for each decision
-- `assets/css/styles.css` - day/night theme via CSS variables
-- `assets/css/gallery.css` - gallery grid and lightbox
-- `assets/js/app.js` - shared logic (theme, clock, toast, corner characters)
-- `assets/js/gallery.js` - gallery rendering
-- `assets/img/` - logos and character art
-- `assets/gallery/` - the photos
+## Adding a photo
 
-## How to add photos
+1. Put a `.webp` file in `assets/gallery/`.
+2. Add a `<button class="gallery-item">` with an `<img>` in `gallery.html`, including the real
+   `width` and `height` so the grid does not jump while loading.
 
-1. Drop a `.webp` file into `assets/gallery/`.
-2. Push - the gallery renders the list in `assets/js/gallery.js` right away, then refreshes it from the folder via the GitHub API.
+## Running
 
-## Run locally
+    python3 -m http.server
 
-Serve the folder with a static server:
+Open http://localhost:8000/.
 
-```bash
-python3 -m http.server
-```
+## Deploying
 
-Then open http://localhost:8000/.
+Push to `main`. GitHub Pages serves the repository root as is.
 
-## Deploy
+## Notes
 
-Push to the `main` branch. GitHub Pages serves the site automatically from the repo root.
+- The pages content works without JavaScript. JavaScript adds the theme toggle, the clock, the
+  Nadeshiko greeting, updated star counts, and the gallery lightbox.
+- Themes follow the system by default; the toggle cycles auto, day, night. Both themes are
+  verified against WCAG AA contrast.
+- Star counts and the lightbox use platform features first: numbers come from one GitHub API call
+  with the last known values written in the HTML as fallback, and the lightbox is a native
+  `<dialog>`.

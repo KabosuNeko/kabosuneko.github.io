@@ -128,10 +128,8 @@ body::after {
 }
 
 .clock-time {
-  font-family: 'DotGothic16', monospace;
-  font-size: 1rem;
-  font-weight: 400;
-  letter-spacing: 0.04em;
+  font-size: 0.9rem;
+  font-weight: 600;
   color: var(--text-medium);
   font-variant-numeric: tabular-nums;
 }
@@ -200,10 +198,9 @@ body::after {
   align-items: center;
   gap: 16px;
   margin: 0 0 12px;
-  font-family: 'DotGothic16', monospace;
-  font-size: 1rem;
-  font-weight: 400;
-  letter-spacing: 0.06em;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent);
 }

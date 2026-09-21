@@ -13,9 +13,8 @@ Dial: ENERGY 1 / RHYTHM 1 / MOTION 1
 
 ## Type
 
-- Nunito for everything readable.
-- DotGothic16 (pixel) for section labels and the clock only: it matches the owner's Japanese
-  game and camping references. Held at 16px so the pixel grid stays sharp; no wide tracking.
+- Nunito for everything: one family, with size and weight doing the hierarchy work.
+- No second display font. A mixed pixel font read as a different site (tried and removed).
 
 ## Decisions and reasons
 
