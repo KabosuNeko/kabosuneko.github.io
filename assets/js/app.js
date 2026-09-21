@@ -1,8 +1,7 @@
-// Shared app logic: theme, clock, toast, email copy, Nadeshiko click-react, corner characters.
-(function() {
+// Shared app logic: theme, clock, toast, email copy, corner characters.
+(function () {
     'use strict';
 
-    // ---------- Theme ----------
     var themeMode = localStorage.getItem('theme') || 'auto';
 
     function getAutoTheme() {
@@ -19,43 +18,40 @@
         }
     }
 
+    // Runs before first paint, and again on DOM ready to update the toggle button.
+    applyTheme();
+
     function toggleTheme() {
         themeMode = themeMode === 'auto' ? 'day' : (themeMode === 'day' ? 'night' : 'auto');
         localStorage.setItem('theme', themeMode);
         applyTheme();
     }
 
-    // ---------- Clock ----------
     function updateClock() {
         var now = new Date();
         var h = now.getHours();
         var m = now.getMinutes();
-        var el = document.getElementById('clock');
-        if (el) {
-            el.textContent = (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
-        }
+        document.getElementById('clock').textContent = (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
     }
 
-    // ---------- Toast ----------
     function showToast(msg) {
         var toast = document.getElementById('copyToast');
         if (!toast) return;
         toast.textContent = msg;
-        toast.style.display = 'block';
+        toast.classList.add('show');
         clearTimeout(toast._timer);
-        toast._timer = setTimeout(function() {
-            toast.style.display = 'none';
+        toast._timer = setTimeout(function () {
+            toast.classList.remove('show');
         }, 2500);
     }
 
     function copyEmail(e) {
-        if (e) e.preventDefault();
-        navigator.clipboard.writeText('KabosuNeko@proton.me').then(function() {
+        e.preventDefault();
+        navigator.clipboard.writeText('KabosuNeko@proton.me').then(function () {
             showToast('🏕️ copied to clipboard');
-        }).catch(function() {});
+        }).catch(function () {});
     }
 
-    // ---------- Nadeshiko click-react ----------
     var NADE_LINES = [
         'Hmm! Tanoshi!! 🍡',
         'Oishii! 🍙',
@@ -72,19 +68,18 @@
         var el = document.querySelector('.nadeshiko');
         if (!el) return;
         el.classList.remove('bounce');
-        void el.offsetWidth; // force reflow so the animation restarts on rapid clicks
+        void el.offsetWidth; // restart the bounce animation on rapid clicks
         el.classList.add('bounce');
         var bubble = document.getElementById('nadeBubble');
         if (!bubble) return;
         bubble.textContent = NADE_LINES[Math.floor(Math.random() * NADE_LINES.length)];
         bubble.classList.add('show');
         clearTimeout(nadeTimer);
-        nadeTimer = setTimeout(function() {
+        nadeTimer = setTimeout(function () {
             bubble.classList.remove('show');
         }, 2400);
     }
 
-    // ---------- Corner characters ----------
     function openGallery() {
         if (window.location.pathname.indexOf('gallery.html') !== -1) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -97,7 +92,7 @@
         var el = document.querySelector('.' + charClass);
         if (!el) return;
         el.addEventListener('click', action);
-        el.addEventListener('keydown', function(e) {
+        el.addEventListener('keydown', function (e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
                 action();
@@ -105,26 +100,25 @@
         });
     }
 
-    // ---------- Init ----------
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         applyTheme();
-        updateClock();
-        setInterval(updateClock, 1000);
+
+        if (document.getElementById('clock')) {
+            updateClock();
+            setInterval(updateClock, 1000);
+        }
 
         var themeToggle = document.getElementById('themeToggle');
         if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
 
-        var darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        if (darkQuery.addEventListener) {
-            darkQuery.addEventListener('change', function() {
-                if (themeMode === 'auto') applyTheme();
-            });
-        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+            if (themeMode === 'auto') applyTheme();
+        });
+
+        var copyLink = document.querySelector('[data-copy-email]');
+        if (copyLink) copyLink.addEventListener('click', copyEmail);
 
         bindCorner('nadeshiko', reactNadeshiko);
         bindCorner('rin', openGallery);
     });
-
-    // expose for inline onclick usage
-    window.copyEmail = copyEmail;
 })();

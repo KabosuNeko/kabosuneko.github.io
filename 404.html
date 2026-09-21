@@ -7,15 +7,11 @@
     <meta name="description" content="This page wandered off on a camping trip. Head back to camp.">
     <meta property="og:title" content="Page Not Found - Nainne">
     <link rel="icon" type="image/png" href="assets/img/logo.png">
+    <script src="assets/js/app.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="assets/css/styles.css">
-    <script>
-        (function() {
-            var theme = localStorage.getItem('theme') || 'auto';
-            var resolved = (theme === 'day' || theme === 'night') ? theme : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day');
-            document.documentElement.setAttribute('data-theme', resolved);
-        })();
-    </script>
     <style>
         .error-wrap {
             min-height: 100vh;

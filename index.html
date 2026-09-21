@@ -14,13 +14,7 @@
     <meta name="twitter:title" content="Nainne - developer • explorer • camping enthusiast">
     <meta name="twitter:description" content="Nainne - developer, explorer, and camping enthusiast. Projects, tools, and a cozy Yuru Camp-inspired corner of the web.">
     <link rel="icon" type="image/png" href="assets/img/logo.png">
-    <script>
-        (function() {
-            var theme = localStorage.getItem('theme') || 'auto';
-            var resolved = (theme === 'day' || theme === 'night') ? theme : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day');
-            document.documentElement.setAttribute('data-theme', resolved);
-        })();
-    </script>
+    <script src="assets/js/app.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap">
@@ -42,7 +36,7 @@
     </script>
 </head>
 <body>
-    <svg class="icon-sprite" style="display:none" aria-hidden="true">
+    <svg class="icon-sprite" aria-hidden="true">
         <symbol id="icon-external" viewBox="0 0 512 512">
             <path d="M384 320c-17.67 0-32 14.33-32 32v96H64V160h96c17.67 0 32-14.32 32-32s-14.33-32-32-32L64 96c-35.35 0-64 28.65-64 64V448c0 35.34 28.65 64 64 64h288c35.35 0 64-28.66 64-64v-96C416 334.3 401.7 320 384 320zM488 0H352c-12.94 0-24.62 7.797-29.56 19.75c-4.969 11.97-2.219 25.72 6.938 34.88L370.8 96L169.4 297.4c-12.5 12.5-12.5 32.75 0 45.25C175.6 348.9 183.8 352 192 352s16.38-3.125 22.62-9.375L416 141.3l41.38 41.38c9.156 9.141 22.88 11.84 34.88 6.938C504.2 184.6 512 172.9 512 160V24C512 10.74 501.3 0 488 0z"/>
         </symbol>
@@ -62,7 +56,7 @@
 
     <header class="page-header">
         <div class="clock-widget">
-            <img src="assets/img/logo.png" alt="logo">
+            <img src="assets/img/logo.png" alt="">
             <span class="clock-time" id="clock">--:--</span>
             <button class="theme-toggle" id="themeToggle" type="button" title="Toggle theme" aria-label="Toggle color theme">☀</button>
         </div>
@@ -75,7 +69,7 @@
                     <p class="header-text">Nainne</p>
                     <p class="header-tagline">developer • explorer • camping enthusiast</p>
                 </div>
-                <img class="avatar" src="assets/img/avatar.png" alt="my avatar">
+                <img class="avatar" src="assets/img/avatar.png" alt="Nainne's avatar">
             </div>
         </header>
 
@@ -163,11 +157,11 @@
                 <p class="wid-main" id="contact-title">Contact</p>
             </div>
             <div class="article-bottom btm developer-bottom">
-                <div class="developer-socials article-socials">
+                <div class="developer-socials">
                     <a href="https://github.com/KabosuNeko" class="contact-link" data-tooltip="GitHub profile" aria-label="GitHub profile">
                         <svg class="social-icons" aria-hidden="true"><use href="#icon-github"></use></svg>
                     </a>
-                    <a href="#" onclick="copyEmail(event)" class="contact-link" data-tooltip="Click to copy:
+                    <a href="mailto:KabosuNeko@proton.me" class="contact-link" data-copy-email data-tooltip="Click to copy:
 KabosuNeko@proton.me" aria-label="Copy email address">
                         <svg class="social-icons" aria-hidden="true"><use href="#icon-mail"></use></svg>
                     </a>
@@ -182,16 +176,14 @@ KabosuNeko@proton.me" aria-label="Copy email address">
         </section>
     </div>
 
-    <div id="copyToast" class="copy-toast" style="display: none;">copied to clipboard</div>
+    <div id="copyToast" class="copy-toast" role="status"></div>
 
     <div class="corner-character nadeshiko" tabindex="0" role="button" aria-label="Say hi to Nadeshiko" data-tooltip="🍡 Say hi">
-        <img src="assets/img/nadeshiko.png" alt="Nadeshiko - click to say hi">
+        <img src="assets/img/nadeshiko.png" alt="">
         <div class="nade-bubble" id="nadeBubble"></div>
     </div>
     <div class="corner-character rin" tabindex="0" role="button" aria-label="Photo gallery" data-tooltip="📷 Open gallery">
-        <img src="assets/img/rin.png" alt="Rin - click to open gallery">
+        <img src="assets/img/rin.png" alt="">
     </div>
-
-    <script src="assets/js/app.js"></script>
 </body>
 </html>
