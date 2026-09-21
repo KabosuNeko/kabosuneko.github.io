@@ -102,9 +102,36 @@ button:focus-visible,
   opacity: 0.85;
 }
 
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+[data-theme="night"] body {
+  background-image:
+    radial-gradient(1.5px 1.5px at 30px 40px, rgba(250,189,47,0.5), transparent),
+    radial-gradient(1px 1px at 170px 120px, rgba(235,219,178,0.42), transparent),
+    radial-gradient(1.5px 1.5px at 90px 230px, rgba(250,189,47,0.36), transparent),
+    radial-gradient(1px 1px at 250px 60px, rgba(235,219,178,0.36), transparent),
+    radial-gradient(1px 1px at 210px 250px, rgba(250,189,47,0.3), transparent),
+    radial-gradient(120% 70% at 50% -10%, var(--bg-glow), transparent 60%);
+  background-size: 320px 320px, 320px 320px, 320px 320px, 320px 320px, 320px 320px, 100% 100%;
+}
+
+[data-theme="night"] body::after {
+  opacity: 0.06;
+}
+
 .clock-time {
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-family: 'DotGothic16', monospace;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
   color: var(--text-medium);
   font-variant-numeric: tabular-nums;
 }
@@ -173,11 +200,20 @@ button:focus-visible,
   align-items: center;
   gap: 16px;
   margin: 0 0 12px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  font-family: 'DotGothic16', monospace;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--accent);
+}
+
+[data-theme="night"] .panel-title {
+  text-shadow: 0 0 12px rgba(254,128,25,0.45);
+}
+
+[data-theme="night"] .intro-name {
+  text-shadow: 0 0 28px rgba(254,128,25,0.16);
 }
 
 .panel-title::after {

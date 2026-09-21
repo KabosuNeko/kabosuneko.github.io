@@ -74,6 +74,25 @@
         }, 2600);
     }
 
+    function updateStars() {
+        var tags = document.querySelectorAll('.tag[data-repo]');
+        if (!tags.length) return;
+        fetch('https://api.github.com/users/KabosuNeko/repos?per_page=100')
+            .then(function (res) { return res.ok ? res.json() : null; })
+            .then(function (list) {
+                if (!Array.isArray(list)) return;
+                var stars = {};
+                list.forEach(function (repo) { stars[repo.name.toLowerCase()] = repo.stargazers_count; });
+                tags.forEach(function (tag) {
+                    var count = stars[tag.getAttribute('data-repo').toLowerCase()];
+                    if (typeof count === 'number') {
+                        tag.textContent = tag.getAttribute('data-lang') + ' · ' + count + '★';
+                    }
+                });
+            })
+            .catch(function () {});
+    }
+
     function openGallery() {
         if (window.location.pathname.indexOf('gallery.html') !== -1) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -112,6 +131,8 @@
         document.querySelectorAll('[data-copy-email]').forEach(function (link) {
             link.addEventListener('click', copyEmail);
         });
+
+        updateStars();
 
         bindCorner('nadeshiko', greetNadeshiko);
         bindCorner('rin', openGallery);
