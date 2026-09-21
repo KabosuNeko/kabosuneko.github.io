@@ -14,7 +14,9 @@ Dial: ENERGY 1 / RHYTHM 1 / MOTION 1
 ## Type
 
 - Nunito for everything: one family, with size and weight doing the hierarchy work.
-- No second display font. A mixed pixel font read as a different site (tried and removed).
+- No display font. Options tried and declined: DotGothic16 on labels (read as a different site),
+  Pixelify Sans and Silkscreen on the display roles (pixel voice fought the quiet, warm page).
+  A single family keeps the page calm, which is the point.
 
 ## Decisions and reasons
 
