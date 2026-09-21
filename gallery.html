@@ -18,7 +18,7 @@
     <script src="assets/js/app.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Nunito:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/gallery.css">
     <script src="assets/js/gallery.js" defer></script>
@@ -43,10 +43,52 @@
             <p class="gallery-subtitle">Captured moments from the journey</p>
         </header>
 
-        <main class="gallery-grid" id="galleryGrid">
-            <noscript>
-                <p class="gallery-noscript">This gallery needs JavaScript to load the photos.</p>
-            </noscript>
+        <main class="gallery-grid">
+            <button class="gallery-item" type="button">
+                <img src="assets/gallery/photo_1_2026-04-18_16-19-12.webp" alt="Gallery photo 1" width="675" height="900" loading="lazy" decoding="async">
+            </button>
+            <button class="gallery-item" type="button">
+                <img src="assets/gallery/photo_2_2026-04-18_15-26-06.webp" alt="Gallery photo 2" width="674" height="900" loading="lazy" decoding="async">
+            </button>
+            <button class="gallery-item" type="button">
+                <img src="assets/gallery/photo_3_2026-04-18_15-26-06.webp" alt="Gallery photo 3" width="674" height="900" loading="lazy" decoding="async">
+            </button>
+            <button class="gallery-item" type="button">
+                <img src="assets/gallery/photo_3_2026-04-18_16-19-12.webp" alt="Gallery photo 4" width="674" height="900" loading="lazy" decoding="async">
+            </button>
+            <button class="gallery-item" type="button">
+                <img src="assets/gallery/photo_4_2026-04-18_15-26-06.webp" alt="Gallery photo 5" width="674" height="900" loading="lazy" decoding="async">
+            </button>
+            <button class="gallery-item" type="button">
+                <img src="assets/gallery/photo_5_2026-04-18_15-26-06.webp" alt="Gallery photo 6" width="674" height="900" loading="lazy" decoding="async">
+            </button>
+            <button class="gallery-item" type="button">
+                <img src="assets/gallery/photo_6_2026-04-18_15-26-06.webp" alt="Gallery photo 7" width="674" height="900" loading="lazy" decoding="async">
+            </button>
+            <button class="gallery-item" type="button">
+                <img src="assets/gallery/photo_7_2026-04-18_15-26-06.webp" alt="Gallery photo 8" width="900" height="674" loading="lazy" decoding="async">
+            </button>
+            <button class="gallery-item" type="button">
+                <img src="assets/gallery/photo_8_2026-04-18_15-26-06.webp" alt="Gallery photo 9" width="600" height="900" loading="lazy" decoding="async">
+            </button>
+            <button class="gallery-item" type="button">
+                <img src="assets/gallery/photo_9_2026-04-18_15-26-06.webp" alt="Gallery photo 10" width="600" height="900" loading="lazy" decoding="async">
+            </button>
+            <button class="gallery-item" type="button">
+                <img src="assets/gallery/photo_10_2026-04-18_15-26-06.webp" alt="Gallery photo 11" width="600" height="900" loading="lazy" decoding="async">
+            </button>
+            <button class="gallery-item" type="button">
+                <img src="assets/gallery/photo_11_2026-04-18_15-26-06.webp" alt="Gallery photo 12" width="900" height="600" loading="lazy" decoding="async">
+            </button>
+            <button class="gallery-item" type="button">
+                <img src="assets/gallery/photo_12_2026-04-18_15-26-06.webp" alt="Gallery photo 13" width="900" height="600" loading="lazy" decoding="async">
+            </button>
+            <button class="gallery-item" type="button">
+                <img src="assets/gallery/photo_13_2026-04-18_15-26-06.webp" alt="Gallery photo 14" width="600" height="900" loading="lazy" decoding="async">
+            </button>
+            <button class="gallery-item" type="button">
+                <img src="assets/gallery/photo_2026-04-18_16-21-14.webp" alt="Gallery photo 15" width="674" height="900" loading="lazy" decoding="async">
+            </button>
         </main>
 
         <footer class="gallery-footer">
@@ -54,12 +96,13 @@
         </footer>
     </div>
 
-    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
-        <button class="lightbox-close" aria-label="Close photo viewer">&times;</button>
-        <button class="lightbox-nav lightbox-prev" aria-label="Previous photo">&#10094;</button>
+    <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+        <button class="lightbox-close" type="button" aria-label="Close photo viewer">&times;</button>
+        <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous photo">&#10094;</button>
         <img src="" alt="" class="lightbox-img" id="lightboxImg">
-        <button class="lightbox-nav lightbox-next" aria-label="Next photo">&#10095;</button>
+        <button class="lightbox-nav lightbox-next" type="button" aria-label="Next photo">&#10095;</button>
         <div class="lightbox-caption" id="lightboxCaption" aria-live="polite"></div>
+    </dialog>
     </div>
 
     <button class="corner-character nadeshiko" type="button" aria-label="Say hi" data-tooltip="Say hi">

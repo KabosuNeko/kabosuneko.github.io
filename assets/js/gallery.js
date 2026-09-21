@@ -1,123 +1,38 @@
-// Photo gallery: renders assets/gallery/*.webp with a lightbox.
-var galleryFiles = [
-    'photo_1_2026-04-18_16-19-12.webp',
-    'photo_2_2026-04-18_15-26-06.webp',
-    'photo_3_2026-04-18_15-26-06.webp',
-    'photo_3_2026-04-18_16-19-12.webp',
-    'photo_4_2026-04-18_15-26-06.webp',
-    'photo_5_2026-04-18_15-26-06.webp',
-    'photo_6_2026-04-18_15-26-06.webp',
-    'photo_7_2026-04-18_15-26-06.webp',
-    'photo_8_2026-04-18_15-26-06.webp',
-    'photo_9_2026-04-18_15-26-06.webp',
-    'photo_10_2026-04-18_15-26-06.webp',
-    'photo_11_2026-04-18_15-26-06.webp',
-    'photo_12_2026-04-18_15-26-06.webp',
-    'photo_13_2026-04-18_15-26-06.webp',
-    'photo_2026-04-18_16-21-14.webp'
-];
+// Photo lightbox for the static gallery grid.
+(function () {
+    'use strict';
 
-var currentImageIndex = 0;
+    var dialog = document.getElementById('lightbox');
+    var grid = document.querySelector('.gallery-grid');
+    if (!dialog || !grid) return;
 
-// Keeps the hardcoded list in sync with the folder when the API is reachable.
-function fetchRemoteGallery() {
-    var controller = new AbortController();
-    var timeout = setTimeout(function () { controller.abort(); }, 5000);
+    var photos = Array.prototype.slice.call(grid.querySelectorAll('img'));
+    var image = document.getElementById('lightboxImg');
+    var caption = document.getElementById('lightboxCaption');
+    var current = 0;
 
-    fetch('https://api.github.com/repos/KabosuNeko/kabosuneko.github.io/contents/assets/gallery', { signal: controller.signal })
-        .then(function (res) {
-            if (!res.ok) throw new Error('gallery fetch failed');
-            return res.json();
-        })
-        .then(function (list) {
-            clearTimeout(timeout);
-            var webps = (Array.isArray(list) ? list : [])
-                .filter(function (item) { return item.name && item.name.slice(-5).toLowerCase() === '.webp'; })
-                .map(function (item) { return item.name; })
-                .sort();
-            if (webps.length > 0 && webps.join('\n') !== galleryFiles.join('\n')) {
-                galleryFiles = webps;
-                loadGallery();
-            }
-        })
-        .catch(function () {
-            clearTimeout(timeout);
-        });
-}
-
-function loadGallery() {
-    var grid = document.getElementById('galleryGrid');
-    grid.innerHTML = '';
-    galleryFiles.forEach(function (filename, index) {
-        var item = document.createElement('div');
-        item.className = 'gallery-item';
-        item.setAttribute('role', 'button');
-        item.setAttribute('tabindex', '0');
-        item.addEventListener('click', function () { openLightbox(index); });
-        item.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                openLightbox(index);
-            }
-        });
-        var img = document.createElement('img');
-        img.src = 'assets/gallery/' + filename;
-        img.alt = 'Gallery photo ' + (index + 1);
-        img.loading = 'lazy';
-        item.appendChild(img);
-        grid.appendChild(item);
-    });
-}
-
-function openLightbox(index) {
-    currentImageIndex = index;
-    updateLightboxImage();
-    document.getElementById('lightbox').classList.add('active');
-    document.body.style.overflow = 'hidden';
-    document.addEventListener('keydown', handleLightboxKeys);
-}
-
-function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('active');
-    document.body.style.overflow = '';
-    document.removeEventListener('keydown', handleLightboxKeys);
-}
-
-function changeImage(direction) {
-    currentImageIndex += direction;
-    if (currentImageIndex < 0) currentImageIndex = galleryFiles.length - 1;
-    if (currentImageIndex >= galleryFiles.length) currentImageIndex = 0;
-    updateLightboxImage();
-}
-
-function preloadImage(index) {
-    var img = new Image();
-    img.src = 'assets/gallery/' + galleryFiles[index];
-}
-
-function updateLightboxImage() {
-    document.getElementById('lightboxImg').src = 'assets/gallery/' + galleryFiles[currentImageIndex];
-    document.getElementById('lightboxCaption').textContent = (currentImageIndex + 1) + ' / ' + galleryFiles.length;
-    if (galleryFiles.length > 1) {
-        preloadImage((currentImageIndex + 1) % galleryFiles.length);
-        preloadImage((currentImageIndex - 1 + galleryFiles.length) % galleryFiles.length);
+    function show(index) {
+        current = (index + photos.length) % photos.length;
+        image.src = photos[current].src;
+        image.alt = photos[current].alt;
+        caption.textContent = (current + 1) + ' / ' + photos.length;
     }
-}
 
-function handleLightboxKeys(e) {
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft') changeImage(-1);
-    if (e.key === 'ArrowRight') changeImage(1);
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    loadGallery();
-    fetchRemoteGallery();
-
-    var lightbox = document.getElementById('lightbox');
-    lightbox.addEventListener('click', function (e) {
-        if (!e.target.closest('.lightbox-nav')) closeLightbox();
+    grid.addEventListener('click', function (e) {
+        var item = e.target.closest('.gallery-item');
+        if (!item) return;
+        show(photos.indexOf(item.querySelector('img')));
+        dialog.showModal();
     });
-    lightbox.querySelector('.lightbox-prev').addEventListener('click', function () { changeImage(-1); });
-    lightbox.querySelector('.lightbox-next').addEventListener('click', function () { changeImage(1); });
-});
+
+    dialog.addEventListener('click', function (e) {
+        if (e.target.closest('.lightbox-prev')) show(current - 1);
+        else if (e.target.closest('.lightbox-next')) show(current + 1);
+        else if (!e.target.closest('.lightbox-img')) dialog.close();
+    });
+
+    dialog.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowLeft') show(current - 1);
+        if (e.key === 'ArrowRight') show(current + 1);
+    });
+})();
