@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Nainne</title>
+    <meta name="description" content="This page wandered off on a camping trip. Head back to camp.">
+    <meta property="og:title" content="Page Not Found - Nainne">
+    <link rel="icon" type="image/png" href="assets/img/logo.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script>
+        (function() {
+            var theme = localStorage.getItem('theme') || 'auto';
+            var resolved = (theme === 'day' || theme === 'night') ? theme : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day');
+            document.documentElement.setAttribute('data-theme', resolved);
+        })();
+    </script>
+    <style>
+        .error-wrap {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            position: relative;
+            z-index: 1;
+        }
+        .error-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            box-shadow: 0 8px 32px var(--shadow-soft);
+            padding: 48px 40px;
+            text-align: center;
+            max-width: 480px;
+            width: 100%;
+        }
+        .error-code {
+            font-size: 88px;
+            font-weight: 700;
+            color: var(--button-warm);
+            margin: 0;
+            line-height: 1;
+        }
+        .error-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 16px 0 8px;
+        }
+        .error-text {
+            font-size: 15px;
+            color: var(--text-medium);
+            margin: 0 0 28px;
+            line-height: 1.6;
+        }
+        .back-link {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 999px;
+            background: var(--button-warm);
+            color: #fff;
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .back-link:hover {
+            background: var(--button-warm-hover);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="error-wrap">
+        <div class="error-card">
+            <p class="error-code">404</p>
+            <h1 class="error-title">Lost in the woods 🏕️</h1>
+            <p class="error-text">The page you're looking for wandered off on a camping trip.</p>
+            <a class="back-link" href="index.html">Back to camp</a>
+        </div>
+    </div>
+</body>
+</html>
