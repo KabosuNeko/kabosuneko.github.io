@@ -354,6 +354,9 @@ body::after {
   position: fixed;
   bottom: 16px;
   z-index: 100;
+  padding: 0;
+  border: 0;
+  background: none;
   cursor: pointer;
   filter: drop-shadow(0 4px 12px var(--shadow-soft));
 }

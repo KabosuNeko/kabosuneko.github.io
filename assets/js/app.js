@@ -93,26 +93,6 @@
             .catch(function () {});
     }
 
-    function openGallery() {
-        if (window.location.pathname.indexOf('gallery.html') !== -1) {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-            window.location.href = 'gallery.html';
-        }
-    }
-
-    function bindCorner(charClass, action) {
-        var el = document.querySelector('.' + charClass);
-        if (!el) return;
-        el.addEventListener('click', action);
-        el.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                action();
-            }
-        });
-    }
-
     document.addEventListener('DOMContentLoaded', function () {
         applyTheme();
 
@@ -134,7 +114,7 @@
 
         updateStars();
 
-        bindCorner('nadeshiko', greetNadeshiko);
-        bindCorner('rin', openGallery);
+        var nade = document.querySelector('.nadeshiko');
+        if (nade) nade.addEventListener('click', greetNadeshiko);
     });
 })();
