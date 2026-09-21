@@ -48,7 +48,7 @@
     function copyEmail(e) {
         e.preventDefault();
         navigator.clipboard.writeText('KabosuNeko@proton.me').then(function () {
-            showToast('🏕️ copied to clipboard');
+            showToast('Copied to clipboard');
         }).catch(function () {});
     }
 
