@@ -5,7 +5,8 @@
     var themeMode = localStorage.getItem('theme') || 'auto';
 
     function getAutoTheme() {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day';
+        var hour = new Date().getHours();
+        return hour >= 6 && hour < 18 ? 'day' : 'night';
     }
 
     function applyTheme() {
@@ -107,10 +108,6 @@
 
         var themeToggle = document.getElementById('themeToggle');
         if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
-
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
-            if (themeMode === 'auto') applyTheme();
-        });
 
         document.querySelectorAll('[data-copy-email]').forEach(function (link) {
             link.addEventListener('click', copyEmail);

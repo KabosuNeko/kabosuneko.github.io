@@ -33,5 +33,7 @@ Dial: ENERGY 1 / RHYTHM 1 / MOTION 1
 
 ## Constraints
 
+- Auto theme follows the clock (06:00 to 18:00 day, otherwise night), like Nadeshiko's greeting.
+  The toggle overrides it and the explicit choice is remembered.
 - WCAG AA contrast in both themes, keyboard reachable, visible focus.
 - No invented content: no fake numbers, no testimonials, no placeholder sections.

@@ -36,8 +36,9 @@ Push to `main`. GitHub Pages serves the repository root as is.
 
 - The pages content works without JavaScript. JavaScript adds the theme toggle, the clock, the
   Nadeshiko greeting, updated star counts, and the gallery lightbox.
-- Themes follow the system by default; the toggle cycles auto, day, night. Both themes are
-  verified against WCAG AA contrast.
+- Themes: auto follows the clock (06:00 to 18:00 is day, otherwise night) and is re-checked while a
+  tab stays open; the toggle cycles auto, day, night and the explicit choice is remembered. Both
+  themes are verified against WCAG AA contrast.
 - Star counts and the lightbox use platform features first: numbers come from one GitHub API call
   with the last known values written in the HTML as fallback, and the lightbox is a native
   `<dialog>`.
