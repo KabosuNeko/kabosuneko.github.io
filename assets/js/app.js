@@ -61,8 +61,12 @@
     var nadeTimer = null;
 
     function greetNadeshiko() {
+        var el = document.querySelector('.nadeshiko');
         var bubble = document.getElementById('nadeBubble');
-        if (!bubble) return;
+        if (!el || !bubble) return;
+        el.classList.remove('bounce');
+        void el.offsetWidth; // restart the bounce animation
+        el.classList.add('bounce');
         var h = new Date().getHours();
         var slot = h < 5 ? 'night' : h < 11 ? 'morning' : h < 17 ? 'afternoon' : h < 22 ? 'evening' : 'night';
         var lines = GREETINGS[slot];
@@ -71,7 +75,7 @@
         clearTimeout(nadeTimer);
         nadeTimer = setTimeout(function () {
             bubble.classList.remove('show');
-        }, 2600);
+        }, 3000);
     }
 
     function updateStars() {
@@ -115,6 +119,9 @@
         updateStars();
 
         var nade = document.querySelector('.nadeshiko');
-        if (nade) nade.addEventListener('click', greetNadeshiko);
+        if (nade) {
+            nade.addEventListener('click', greetNadeshiko);
+            setTimeout(greetNadeshiko, 500); // greet once shortly after the page appears
+        }
     });
 })();

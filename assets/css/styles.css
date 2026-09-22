@@ -465,6 +465,18 @@ body::after {
   transform: translateY(0);
 }
 
+.nadeshiko.bounce {
+  animation: nade-bounce 0.55s ease;
+}
+
+@keyframes nade-bounce {
+  0% { transform: translateY(0) scale(1, 1); }
+  30% { transform: translateY(-14px) scale(1.06, 0.94); }
+  55% { transform: translateY(0) scale(0.97, 1.04); }
+  75% { transform: translateY(-5px) scale(1.02, 0.98); }
+  100% { transform: translateY(0) scale(1, 1); }
+}
+
 @media (max-width: 768px) {
   .wrap {
     padding: 0 20px 120px;
