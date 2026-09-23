@@ -20,19 +20,26 @@
     <link rel="canonical" href="https://kabosuneko.github.io/gallery.html">
     <meta name="theme-color" content="#fbf1c7">
     <link rel="icon" type="image/png" href="assets/img/logo.png">
-    <script src="assets/js/app.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap">
+    <script>
+        // Set the theme before first paint. Mirrors getAutoTheme() in assets/js/app.js.
+        (function () {
+            var mode = localStorage.getItem('theme') || 'auto';
+            var hour = new Date().getHours();
+            document.documentElement.setAttribute('data-theme',
+                mode === 'auto' ? (hour >= 6 && hour < 18 ? 'day' : 'night') : mode);
+        })();
+    </script>
+    <link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/gallery.css">
+    <script src="assets/js/app.js" defer></script>
     <script src="assets/js/gallery.js" defer></script>
 </head>
 
 <body id="top">
     <header class="page-header">
         <div class="clock-widget">
-            <img src="assets/img/logo.png" alt="">
+            <img src="assets/img/logo-40.webp" alt="" width="40" height="40">
             <span class="clock-time" id="clock">--:--</span>
             <button class="theme-toggle" id="themeToggle" type="button" title="Toggle theme" aria-label="Toggle color theme">☀</button>
         </div>
@@ -50,49 +57,112 @@
 
         <main class="gallery-grid">
             <button class="gallery-item" type="button">
-                <img src="assets/gallery/photo_1_2026-04-18_16-19-12.webp" alt="Gallery photo 1" width="675" height="900" loading="lazy" decoding="async">
+                <img src="assets/gallery/photo_1_2026-04-18_16-19-12.webp"
+                    srcset="assets/gallery/photo_1_2026-04-18_16-19-12-480.webp 480w,
+                    assets/gallery/photo_1_2026-04-18_16-19-12.webp 675w"
+                    sizes="(min-width: 1024px) 333px, (min-width: 640px) calc(50vw - 34px), calc(100vw - 42px)"
+                    alt="Gallery photo 1" width="675" height="900" fetchpriority="high" decoding="async">
             </button>
             <button class="gallery-item" type="button">
-                <img src="assets/gallery/photo_2_2026-04-18_15-26-06.webp" alt="Gallery photo 2" width="674" height="900" loading="lazy" decoding="async">
+                <img src="assets/gallery/photo_2_2026-04-18_15-26-06.webp"
+                    srcset="assets/gallery/photo_2_2026-04-18_15-26-06-480.webp 480w,
+                    assets/gallery/photo_2_2026-04-18_15-26-06.webp 674w"
+                    sizes="(min-width: 1024px) 333px, (min-width: 640px) calc(50vw - 34px), calc(100vw - 42px)"
+                    alt="Gallery photo 2" width="674" height="900" loading="lazy" decoding="async">
             </button>
             <button class="gallery-item" type="button">
-                <img src="assets/gallery/photo_3_2026-04-18_15-26-06.webp" alt="Gallery photo 3" width="674" height="900" loading="lazy" decoding="async">
+                <img src="assets/gallery/photo_3_2026-04-18_15-26-06.webp"
+                    srcset="assets/gallery/photo_3_2026-04-18_15-26-06-480.webp 480w,
+                    assets/gallery/photo_3_2026-04-18_15-26-06.webp 674w"
+                    sizes="(min-width: 1024px) 333px, (min-width: 640px) calc(50vw - 34px), calc(100vw - 42px)"
+                    alt="Gallery photo 3" width="674" height="900" loading="lazy" decoding="async">
             </button>
             <button class="gallery-item" type="button">
-                <img src="assets/gallery/photo_3_2026-04-18_16-19-12.webp" alt="Gallery photo 4" width="674" height="900" loading="lazy" decoding="async">
+                <img src="assets/gallery/photo_3_2026-04-18_16-19-12.webp"
+                    srcset="assets/gallery/photo_3_2026-04-18_16-19-12-480.webp 480w,
+                    assets/gallery/photo_3_2026-04-18_16-19-12.webp 674w"
+                    sizes="(min-width: 1024px) 333px, (min-width: 640px) calc(50vw - 34px), calc(100vw - 42px)"
+                    alt="Gallery photo 4" width="674" height="900" loading="lazy" decoding="async">
             </button>
             <button class="gallery-item" type="button">
-                <img src="assets/gallery/photo_4_2026-04-18_15-26-06.webp" alt="Gallery photo 5" width="674" height="900" loading="lazy" decoding="async">
+                <img src="assets/gallery/photo_4_2026-04-18_15-26-06.webp"
+                    srcset="assets/gallery/photo_4_2026-04-18_15-26-06-480.webp 480w,
+                    assets/gallery/photo_4_2026-04-18_15-26-06.webp 674w"
+                    sizes="(min-width: 1024px) 333px, (min-width: 640px) calc(50vw - 34px), calc(100vw - 42px)"
+                    alt="Gallery photo 5" width="674" height="900" loading="lazy" decoding="async">
             </button>
             <button class="gallery-item" type="button">
-                <img src="assets/gallery/photo_5_2026-04-18_15-26-06.webp" alt="Gallery photo 6" width="674" height="900" loading="lazy" decoding="async">
+                <img src="assets/gallery/photo_5_2026-04-18_15-26-06.webp"
+                    srcset="assets/gallery/photo_5_2026-04-18_15-26-06-480.webp 480w,
+                    assets/gallery/photo_5_2026-04-18_15-26-06.webp 674w"
+                    sizes="(min-width: 1024px) 333px, (min-width: 640px) calc(50vw - 34px), calc(100vw - 42px)"
+                    alt="Gallery photo 6" width="674" height="900" loading="lazy" decoding="async">
             </button>
             <button class="gallery-item" type="button">
-                <img src="assets/gallery/photo_6_2026-04-18_15-26-06.webp" alt="Gallery photo 7" width="674" height="900" loading="lazy" decoding="async">
+                <img src="assets/gallery/photo_6_2026-04-18_15-26-06.webp"
+                    srcset="assets/gallery/photo_6_2026-04-18_15-26-06-480.webp 480w,
+                    assets/gallery/photo_6_2026-04-18_15-26-06.webp 674w"
+                    sizes="(min-width: 1024px) 333px, (min-width: 640px) calc(50vw - 34px), calc(100vw - 42px)"
+                    alt="Gallery photo 7" width="674" height="900" loading="lazy" decoding="async">
             </button>
             <button class="gallery-item" type="button">
-                <img src="assets/gallery/photo_7_2026-04-18_15-26-06.webp" alt="Gallery photo 8" width="900" height="674" loading="lazy" decoding="async">
+                <img src="assets/gallery/photo_7_2026-04-18_15-26-06.webp"
+                    srcset="assets/gallery/photo_7_2026-04-18_15-26-06-480.webp 480w,
+                    assets/gallery/photo_7_2026-04-18_15-26-06-700.webp 700w,
+                    assets/gallery/photo_7_2026-04-18_15-26-06.webp 900w"
+                    sizes="(min-width: 1024px) 333px, (min-width: 640px) calc(50vw - 34px), calc(100vw - 42px)"
+                    alt="Gallery photo 8" width="900" height="674" loading="lazy" decoding="async">
             </button>
             <button class="gallery-item" type="button">
-                <img src="assets/gallery/photo_8_2026-04-18_15-26-06.webp" alt="Gallery photo 9" width="600" height="900" loading="lazy" decoding="async">
+                <img src="assets/gallery/photo_8_2026-04-18_15-26-06.webp"
+                    srcset="assets/gallery/photo_8_2026-04-18_15-26-06-480.webp 480w,
+                    assets/gallery/photo_8_2026-04-18_15-26-06.webp 600w"
+                    sizes="(min-width: 1024px) 333px, (min-width: 640px) calc(50vw - 34px), calc(100vw - 42px)"
+                    alt="Gallery photo 9" width="600" height="900" loading="lazy" decoding="async">
             </button>
             <button class="gallery-item" type="button">
-                <img src="assets/gallery/photo_9_2026-04-18_15-26-06.webp" alt="Gallery photo 10" width="600" height="900" loading="lazy" decoding="async">
+                <img src="assets/gallery/photo_9_2026-04-18_15-26-06.webp"
+                    srcset="assets/gallery/photo_9_2026-04-18_15-26-06-480.webp 480w,
+                    assets/gallery/photo_9_2026-04-18_15-26-06.webp 600w"
+                    sizes="(min-width: 1024px) 333px, (min-width: 640px) calc(50vw - 34px), calc(100vw - 42px)"
+                    alt="Gallery photo 10" width="600" height="900" loading="lazy" decoding="async">
             </button>
             <button class="gallery-item" type="button">
-                <img src="assets/gallery/photo_10_2026-04-18_15-26-06.webp" alt="Gallery photo 11" width="600" height="900" loading="lazy" decoding="async">
+                <img src="assets/gallery/photo_10_2026-04-18_15-26-06.webp"
+                    srcset="assets/gallery/photo_10_2026-04-18_15-26-06-480.webp 480w,
+                    assets/gallery/photo_10_2026-04-18_15-26-06.webp 600w"
+                    sizes="(min-width: 1024px) 333px, (min-width: 640px) calc(50vw - 34px), calc(100vw - 42px)"
+                    alt="Gallery photo 11" width="600" height="900" loading="lazy" decoding="async">
             </button>
             <button class="gallery-item" type="button">
-                <img src="assets/gallery/photo_11_2026-04-18_15-26-06.webp" alt="Gallery photo 12" width="900" height="600" loading="lazy" decoding="async">
+                <img src="assets/gallery/photo_11_2026-04-18_15-26-06.webp"
+                    srcset="assets/gallery/photo_11_2026-04-18_15-26-06-480.webp 480w,
+                    assets/gallery/photo_11_2026-04-18_15-26-06-700.webp 700w,
+                    assets/gallery/photo_11_2026-04-18_15-26-06.webp 900w"
+                    sizes="(min-width: 1024px) 333px, (min-width: 640px) calc(50vw - 34px), calc(100vw - 42px)"
+                    alt="Gallery photo 12" width="900" height="600" loading="lazy" decoding="async">
             </button>
             <button class="gallery-item" type="button">
-                <img src="assets/gallery/photo_12_2026-04-18_15-26-06.webp" alt="Gallery photo 13" width="900" height="600" loading="lazy" decoding="async">
+                <img src="assets/gallery/photo_12_2026-04-18_15-26-06.webp"
+                    srcset="assets/gallery/photo_12_2026-04-18_15-26-06-480.webp 480w,
+                    assets/gallery/photo_12_2026-04-18_15-26-06-700.webp 700w,
+                    assets/gallery/photo_12_2026-04-18_15-26-06.webp 900w"
+                    sizes="(min-width: 1024px) 333px, (min-width: 640px) calc(50vw - 34px), calc(100vw - 42px)"
+                    alt="Gallery photo 13" width="900" height="600" loading="lazy" decoding="async">
             </button>
             <button class="gallery-item" type="button">
-                <img src="assets/gallery/photo_13_2026-04-18_15-26-06.webp" alt="Gallery photo 14" width="600" height="900" loading="lazy" decoding="async">
+                <img src="assets/gallery/photo_13_2026-04-18_15-26-06.webp"
+                    srcset="assets/gallery/photo_13_2026-04-18_15-26-06-480.webp 480w,
+                    assets/gallery/photo_13_2026-04-18_15-26-06.webp 600w"
+                    sizes="(min-width: 1024px) 333px, (min-width: 640px) calc(50vw - 34px), calc(100vw - 42px)"
+                    alt="Gallery photo 14" width="600" height="900" loading="lazy" decoding="async">
             </button>
             <button class="gallery-item" type="button">
-                <img src="assets/gallery/photo_2026-04-18_16-21-14.webp" alt="Gallery photo 15" width="674" height="900" loading="lazy" decoding="async">
+                <img src="assets/gallery/photo_2026-04-18_16-21-14.webp"
+                    srcset="assets/gallery/photo_2026-04-18_16-21-14-480.webp 480w,
+                    assets/gallery/photo_2026-04-18_16-21-14.webp 674w"
+                    sizes="(min-width: 1024px) 333px, (min-width: 640px) calc(50vw - 34px), calc(100vw - 42px)"
+                    alt="Gallery photo 15" width="674" height="900" loading="lazy" decoding="async">
             </button>
         </main>
 
@@ -111,11 +181,11 @@
     </dialog>
 
     <button class="corner-character nadeshiko" type="button" aria-label="Say hi" data-tooltip="Say hi">
-        <img src="assets/img/nadeshiko.png" alt="">
+        <img src="assets/img/nadeshiko.webp" alt="">
         <span class="nade-bubble" id="nadeBubble" role="status"></span>
     </button>
     <a class="corner-character rin" href="#top" aria-label="Back to top" data-tooltip="Back to top">
-        <img src="assets/img/rin.png" alt="">
+        <img src="assets/img/rin.webp" alt="">
     </a>
 </body>
 

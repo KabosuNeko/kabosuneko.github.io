@@ -8,12 +8,20 @@
     <meta name="theme-color" content="#fbf1c7">
     <meta name="description" content="This page wandered off on a camping trip. Head back to camp.">
     <meta property="og:title" content="Page Not Found - Nainne">
-    <link rel="icon" type="image/png" href="assets/img/logo.png">
-    <script src="assets/js/app.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- Root-relative paths: GitHub Pages serves this file for missing paths at any depth. -->
+    <link rel="icon" type="image/png" href="/assets/img/logo.png">
+    <script>
+        // Set the theme before first paint. Mirrors getAutoTheme() in assets/js/app.js.
+        (function () {
+            var mode = localStorage.getItem('theme') || 'auto';
+            var hour = new Date().getHours();
+            document.documentElement.setAttribute('data-theme',
+                mode === 'auto' ? (hour >= 6 && hour < 18 ? 'day' : 'night') : mode);
+        })();
+    </script>
+    <script src="/assets/js/app.js" defer></script>
+    <link rel="preload" href="/assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/css/styles.css">
     <style>
         .error-wrap {
             min-height: 100vh;
@@ -76,7 +84,7 @@
             <p class="error-code">404</p>
             <h1 class="error-title">Lost in the woods 🏕️</h1>
             <p class="error-text">The page you're looking for wandered off on a camping trip.</p>
-            <a class="back-link" href="index.html">Back to camp</a>
+            <a class="back-link" href="/">Back to camp</a>
         </div>
     </div>
 </body>
