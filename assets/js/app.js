@@ -54,10 +54,17 @@
     }
 
     function copyEmail(e) {
+        var href = e.currentTarget.getAttribute('href') || '';
+        // A modified click belongs to the browser, and without a clipboard API the link
+        // should do what it says: open the mail client.
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        if (!navigator.clipboard || !navigator.clipboard.writeText) return;
         e.preventDefault();
-        navigator.clipboard.writeText('KabosuNeko@proton.me').then(function () {
+        navigator.clipboard.writeText(href.replace(/^mailto:/, '')).then(function () {
             showToast('Copied to clipboard');
-        }).catch(function () {});
+        }).catch(function () {
+            window.location.href = href;
+        });
     }
 
     var GREETINGS = {
