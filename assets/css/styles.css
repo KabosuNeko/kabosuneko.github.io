@@ -568,45 +568,6 @@ body::after {
   }
 }
 
-/* Narrower than this and the gutters are thinner than the mascots, so a fixed corner
-   sits on top of the rows and swallows their taps: the mascots stand in the flow at the
-   end of the page instead, and their greeting hangs above them rather than over text. */
-@media (max-width: 900px) {
-  .corner-character {
-    position: relative;
-    left: auto;
-    right: auto;
-    bottom: auto;
-    display: block;
-    width: max-content;
-    margin: 0 auto 8px;
-  }
-
-  .corner-character.rin {
-    margin-bottom: 32px;
-  }
-
-  .nade-bubble {
-    left: 50%;
-    bottom: calc(100% + 10px);
-    transform: translateX(-50%) translateY(8px);
-  }
-
-  .nade-bubble.show {
-    transform: translateX(-50%) translateY(0);
-  }
-
-  .nade-bubble::after {
-    top: 100%;
-    left: 50%;
-    right: auto;
-    margin-left: -8px;
-    transform: none;
-    border-right-color: transparent;
-    border-top-color: var(--toast-bg);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

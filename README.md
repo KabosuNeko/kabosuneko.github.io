@@ -54,9 +54,6 @@ Push to `main`. GitHub Pages serves the repository root as is.
 
 - The pages content works without JavaScript. JavaScript adds the theme toggle, the clock, the
   Nadeshiko greeting, updated star counts, and the gallery lightbox.
-- The mascots float in the page corners while there is room for them and join the flow at the end of
-  the page below 900px, where a fixed corner would sit on the project rows. Their greeting only
-  appears unasked above that width; on a phone it waits for a tap.
 - The Email chip copies the address and says so; without a working clipboard it opens the mail client
   instead of doing nothing.
 - Themes: auto follows the clock (06:00 to 18:00 is day, otherwise night) and is re-checked while a

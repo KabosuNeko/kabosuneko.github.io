@@ -137,9 +137,7 @@
         var nade = document.querySelector('.nadeshiko');
         if (nade) {
             nade.addEventListener('click', greetNadeshiko);
-            // The mascot only floats clear of the content above 900px (see styles.css);
-            // a greeting that lands on top of a project row is worse than no greeting.
-            if (window.matchMedia('(min-width: 901px)').matches) setTimeout(greetNadeshiko, 500);
+            setTimeout(greetNadeshiko, 500); // greet once shortly after the page appears
         }
     });
 })();
