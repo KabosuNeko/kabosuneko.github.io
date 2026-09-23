@@ -12,6 +12,12 @@
     function applyTheme() {
         var theme = themeMode === 'auto' ? getAutoTheme() : themeMode;
         document.documentElement.setAttribute('data-theme', theme);
+        // Browser chrome follows the page background; the token stays the single source of truth.
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) {
+            var bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
+            if (bg) meta.setAttribute('content', bg);
+        }
         var btn = document.getElementById('themeToggle');
         if (btn) {
             btn.textContent = themeMode === 'auto' ? 'A' : (themeMode === 'day' ? '☀' : '☾');
