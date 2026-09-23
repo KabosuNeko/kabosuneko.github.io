@@ -10,17 +10,35 @@ No build step, no dependencies, no framework. Plain HTML, CSS, and JavaScript.
     index.html          projects and contact
     gallery.html        photo gallery
     404.html            error page
+    robots.txt          crawler policy
+    sitemap.xml         indexable URLs
     DESIGN.md           design direction, dials, and the reason for each decision
-    assets/css/         styles.css (shared, theme tokens), gallery.css (grid, lightbox)
+    assets/css/         styles.css (shared, theme tokens, font faces), gallery.css (grid, lightbox)
     assets/js/          app.js (theme, clock, toast, greeting, star counts), gallery.js (lightbox)
+    assets/fonts/       Nunito subsets, self-hosted
     assets/img/         logo, avatar, mascots
-    assets/gallery/     photos
+    assets/gallery/     photos and their display variants
 
 ## Adding a photo
 
-1. Put a `.webp` file in `assets/gallery/`.
-2. Add a `<button class="gallery-item">` with an `<img>` in `gallery.html`, including the real
-   `width` and `height` so the grid does not jump while loading.
+1. Put a `.webp` file in `assets/gallery/` (the original is the largest candidate each `srcset`
+   offers, so keep it at the resolution you are happy to serve on high-DPI screens).
+2. Generate the display variants:
+
+       magick assets/gallery/photo.webp -resize '480x>' -strip -quality 75 -define webp:method=6 assets/gallery/photo-480.webp
+       magick assets/gallery/photo.webp -resize '700x>' -strip -quality 80 -define webp:method=6 assets/gallery/photo-700.webp
+
+   Skip the `-700` file when the original is narrower than 700px.
+3. Add a `<button class="gallery-item">` with an `<img>` in `gallery.html`: real `width` and `height`
+   so the grid does not jump, a `srcset` of the variants plus the original with `w` descriptors, and
+   the shared `sizes` value.
+
+The `sizes` attribute matches the grid in `gallery.css`, which is one column up to 640px, two up to
+1024px, then three columns in a 1052px container:
+
+    sizes="(min-width: 1024px) 333px, (min-width: 640px) calc(50vw - 34px), calc(100vw - 42px)"
+
+The first photo in the grid loads eagerly with `fetchpriority="high"`; the rest stay `loading="lazy"`.
 
 ## Running
 
@@ -42,3 +60,14 @@ Push to `main`. GitHub Pages serves the repository root as is.
 - Star counts and the lightbox use platform features first: numbers come from one GitHub API call
   with the last known values written in the HTML as fallback, and the lightbox is a native
   `<dialog>`.
+- Nunito is self-hosted from `assets/fonts/` (latin and vietnamese subsets of the Google variable
+  font). No request leaves the site for fonts; only the latin file is preloaded, and the vietnamese
+  one is fetched only when a page actually contains those characters. Weights 400 to 800 come from
+  one variable file, so `font-weight: 800` renders the real weight instead of a synthesised one.
+- `theme-color` tracks the theme: the head ships the day colour and `applyTheme()` in `app.js`
+  rewrites it from the `--bg` token when the theme changes.
+- `404.html` uses root-relative paths (`/`, `/assets/...`) because GitHub Pages serves that file for
+  missing paths at any depth; the other pages only exist at the site root and stay relative.
+- Each page sets `data-theme` from a small inline script in `<head>`, before the stylesheets load, so
+  the correct theme paints on the first frame. Keep that rule in sync with `getAutoTheme()` in
+  `assets/js/app.js`.
