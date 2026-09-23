@@ -20,7 +20,7 @@
         }
         var btn = document.getElementById('themeToggle');
         if (btn) {
-            btn.textContent = themeMode === 'auto' ? 'A' : (themeMode === 'day' ? '☀' : '☾');
+            btn.textContent = themeMode === 'auto' ? '◐' : (themeMode === 'day' ? '☀' : '☾');
             btn.setAttribute('aria-label', 'Color theme: ' + themeMode + ' (click to change)');
         }
     }
@@ -130,7 +130,9 @@
         var nade = document.querySelector('.nadeshiko');
         if (nade) {
             nade.addEventListener('click', greetNadeshiko);
-            setTimeout(greetNadeshiko, 500); // greet once shortly after the page appears
+            // The mascot only floats clear of the content above 900px (see styles.css);
+            // a greeting that lands on top of a project row is worse than no greeting.
+            if (window.matchMedia('(min-width: 901px)').matches) setTimeout(greetNadeshiko, 500);
         }
     });
 })();
