@@ -26,6 +26,7 @@
     }
 
     // Runs before first paint, and again on DOM ready to update the toggle button.
+    // The pre-paint pass now lives in an inline script in each page's head; keep the rule in sync.
     applyTheme();
 
     function toggleTheme() {
@@ -109,7 +110,12 @@
 
         if (document.getElementById('clock')) {
             updateClock();
-            setInterval(updateClock, 1000);
+            // One write per displayed minute instead of 60: re-align to the next minute.
+            (function scheduleClock() {
+                var now = new Date();
+                var delay = 60000 - (now.getSeconds() * 1000 + now.getMilliseconds()) + 50;
+                setTimeout(function () { updateClock(); scheduleClock(); }, delay);
+            })();
         }
 
         var themeToggle = document.getElementById('themeToggle');

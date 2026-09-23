@@ -29,7 +29,7 @@
     <script src="assets/js/gallery.js" defer></script>
 </head>
 
-<body>
+<body id="top">
     <header class="page-header">
         <div class="clock-widget">
             <img src="assets/img/logo.png" alt="">
@@ -38,7 +38,7 @@
         </div>
     </header>
     <div class="gallery-container">
-        <header class="gallery-header">
+        <div class="gallery-header">
             <a href="index.html" class="back-link">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor" aria-hidden="true">
                     <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 214.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
@@ -46,7 +46,7 @@
             </a>
             <h1 class="gallery-title">Photo Gallery</h1>
             <p class="gallery-subtitle">Captured moments from the journey</p>
-        </header>
+        </div>
 
         <main class="gallery-grid">
             <button class="gallery-item" type="button">
@@ -104,17 +104,17 @@
     <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
         <button class="lightbox-close" type="button" aria-label="Close photo viewer">&times;</button>
         <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous photo">&#10094;</button>
-        <img src="" alt="" class="lightbox-img" id="lightboxImg">
+        <!-- 1x1 transparent GIF: the lightbox sets the real photo when it opens. -->
+        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" class="lightbox-img" id="lightboxImg">
         <button class="lightbox-nav lightbox-next" type="button" aria-label="Next photo">&#10095;</button>
         <div class="lightbox-caption" id="lightboxCaption" aria-live="polite"></div>
     </dialog>
-    </div>
 
     <button class="corner-character nadeshiko" type="button" aria-label="Say hi" data-tooltip="Say hi">
         <img src="assets/img/nadeshiko.png" alt="">
-        <div class="nade-bubble" id="nadeBubble" role="status"></div>
+        <span class="nade-bubble" id="nadeBubble" role="status"></span>
     </button>
-    <a class="corner-character rin" href="#" aria-label="Back to top" data-tooltip="Back to top">
+    <a class="corner-character rin" href="#top" aria-label="Back to top" data-tooltip="Back to top">
         <img src="assets/img/rin.png" alt="">
     </a>
 </body>
