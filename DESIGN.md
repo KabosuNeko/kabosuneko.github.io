@@ -29,11 +29,18 @@ Dial: ENERGY 1 / RHYTHM 1 / MOTION 1
 - Glow is limited to two dark-mode elements (section labels, name) so headings do not sink into
   the background.
 - Nadeshiko is a button that greets by time of day; Rin is a plain link to the gallery.
+- Photos is a chip in the contact list, not a nav bar: the page has one navigable destination and a
+  header navigation would weigh more than it carries.
 - Star counts come from the GitHub API, with the last known values in the HTML as fallback.
 
 ## Constraints
 
 - Auto theme follows the clock (06:00 to 18:00 day, otherwise night), like Nadeshiko's greeting.
   The toggle overrides it and the explicit choice is remembered.
+- Below 900px the mascots stand in the flow at the end of the page instead of the corners. A fixed
+  corner sits on top of the project rows once the gutters are narrower than the mascot and swallows
+  their taps, so they only float free while there is room. Their greeting waits for a tap there.
+- The theme toggle keeps its 34px circle but carries a 44px hit area, so the row stays quiet without
+  a small touch target.
 - WCAG AA contrast in both themes, keyboard reachable, visible focus.
 - No invented content: no fake numbers, no testimonials, no placeholder sections.
