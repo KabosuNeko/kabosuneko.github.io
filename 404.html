@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page Not Found - Nainne</title>
     <meta name="robots" content="noindex">
-    <meta name="theme-color" content="#fbf1c7">
+    <meta name="theme-color" content="#ffffff">
     <meta name="description" content="This page wandered off on a camping trip. Head back to camp.">
     <meta property="og:title" content="Page Not Found - Nainne">
     <!-- Root-relative paths: GitHub Pages serves this file for missing paths at any depth. -->
@@ -20,7 +20,7 @@
         })();
     </script>
     <script src="/assets/js/app.js" defer></script>
-    <link rel="preload" href="/assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/mplus-rounded-1c-latin-400.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/css/styles.css">
     <style>
         .error-wrap {
@@ -35,8 +35,7 @@
         .error-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 28px;
-            box-shadow: 0 8px 32px var(--shadow-soft);
+            border-radius: var(--radius-slab);
             padding: 48px 40px;
             text-align: center;
             max-width: 480px;
@@ -45,7 +44,7 @@
         .error-code {
             font-size: 88px;
             font-weight: 700;
-            color: var(--button-warm);
+            color: var(--accent);
             margin: 0;
             line-height: 1;
         }
@@ -64,7 +63,7 @@
         .back-link {
             display: inline-block;
             padding: 12px 28px;
-            border-radius: 999px;
+            border-radius: var(--radius-chip);
             background: var(--button-warm);
             color: var(--button-text);
             font-weight: 600;

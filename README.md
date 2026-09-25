@@ -15,7 +15,7 @@ No build step, no dependencies, no framework. Plain HTML, CSS, and JavaScript.
     DESIGN.md           design direction, dials, and the reason for each decision
     assets/css/         styles.css (shared, theme tokens, font faces), gallery.css (grid, lightbox)
     assets/js/          app.js (theme, clock, toast, greeting, star counts), gallery.js (lightbox)
-    assets/fonts/       Nunito subsets, self-hosted
+    assets/fonts/       M PLUS Rounded 1c subsets, self-hosted
     assets/img/         logo, avatar, mascots
     assets/gallery/     photos and their display variants
 
@@ -58,14 +58,16 @@ Push to `main`. GitHub Pages serves the repository root as is.
   instead of doing nothing.
 - Themes: auto follows the clock (06:00 to 18:00 is day, otherwise night) and is re-checked while a
   tab stays open; the toggle cycles auto, day, night and the explicit choice is remembered. Both
-  themes are verified against WCAG AA contrast.
+  themes are verified against WCAG AA contrast: the coloured slabs carry near-black ink, and text
+  accents use a darkened orange because the brand orange cannot carry text. DESIGN.md lists the
+  ratios.
 - Star counts and the lightbox use platform features first: numbers come from one GitHub API call
   with the last known values written in the HTML as fallback, and the lightbox is a native
   `<dialog>`.
-- Nunito is self-hosted from `assets/fonts/` (latin and vietnamese subsets of the Google variable
-  font). No request leaves the site for fonts; only the latin file is preloaded, and the vietnamese
-  one is fetched only when a page actually contains those characters. Weights 400 to 800 come from
-  one variable file, so `font-weight: 800` renders the real weight instead of a synthesised one.
+- Type is `M PLUS Rounded 1c`, the rounded gothic the Yuru Camp portal uses, self-hosted from
+  `assets/fonts/` (latin and vietnamese subsets at 400, 700 and 800). No request leaves the site for
+  fonts; only latin 400 is preloaded, and the vietnamese subsets load only when a page contains
+  those characters. The family ships no 600, so the rules that ask for 600 resolve to 700.
 - `theme-color` tracks the theme: the head ships the day colour and `applyTheme()` in `app.js`
   rewrites it from the `--bg` token when the theme changes.
 - `404.html` uses root-relative paths (`/`, `/assets/...`) because GitHub Pages serves that file for
