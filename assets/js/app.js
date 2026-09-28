@@ -301,6 +301,13 @@
         return p;
     }
 
+    function heading(text) {
+        var h = document.createElement('h2');
+        h.className = 'camp-section';
+        h.textContent = text;
+        return h;
+    }
+
     function line(className, text) {
         var p = document.createElement('p');
         p.className = className;
@@ -348,7 +355,7 @@
             body.appendChild(line('camp-verdict', campVerdict(weather)));
 
             if (weather.days && weather.days.length > 1) {
-                body.appendChild(line('camp-section', 'Next ' + weather.days.length + ' days'));
+                body.appendChild(heading('Next ' + weather.days.length + ' days'));
                 var days = document.createElement('ul');
                 days.className = 'camp-days';
                 weather.days.forEach(function (d) {
@@ -376,10 +383,10 @@
         }
 
         var radiusKm = document.getElementById('campRadius') ? Math.round(document.getElementById('campRadius').value / 1000) : 50;
-        var heading = camps && camps.length
+        var headingText = camps && camps.length
             ? camps.length + ' camp site' + (camps.length === 1 ? '' : 's') + ' within ' + radiusKm + ' km'
             : 'Camp sites within ' + radiusKm + ' km';
-        body.appendChild(line('camp-section', heading));
+        body.appendChild(heading(headingText));
         if (!camps && !state.campsDone) {
             body.appendChild(line('camp-meta', 'Looking for camp sites…'));
         } else if (!camps) {
@@ -433,6 +440,7 @@
         var select = document.getElementById('campRadius');
         var radiusM = select ? parseInt(select.value, 10) : 50000;
         if (!campPlace || askAgain) {
+            body.setAttribute('aria-busy', 'true');
             body.textContent = '';
             body.appendChild(line('camp-meta', 'Looking for you…'));
             return locate().then(function (found) {
@@ -443,7 +451,12 @@
         // Each half paints as soon as it lands: the forecast is quick, Overpass can take seconds
         // (and up to two mirrors) so the list must not hold the weather hostage.
         var state = { weather: null, camps: null, weatherDone: false, campsDone: false };
-        var paint = function () { renderCamp(campPlace, state); };
+        var paint = function () {
+            // aria-busy keeps the live region quiet until both halves have landed, so a screen
+            // reader hears the result once instead of every intermediate paint.
+            body.setAttribute('aria-busy', state.weatherDone && state.campsDone ? 'false' : 'true');
+            renderCamp(campPlace, state);
+        };
         paint();
         loadWeather(campPlace.place).then(function (w) {
             state.weather = w;
