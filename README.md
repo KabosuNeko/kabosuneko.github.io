@@ -78,9 +78,9 @@ Push to `main`. GitHub Pages serves the repository root as is.
   updated star counts, and the gallery lightbox.
 - The Email chip copies the address and says so; without a working clipboard it opens the mail client
   instead of doing nothing.
-- One theme, dark. The background is a night sky: three SVG star tiles in `styles.css` (200px,
-  320px and a 140px twinkle layer behind the content), no images to load and no requests. Reduced
-  motion stops the twinkle. Contrast is verified against that single palette.
+- One theme, dark, on a flat ground: no background image, no texture, nothing animating behind the
+  text. Contrast is verified against that single palette (ink 11.95:1, muted 7.29:1 on the ground and
+  5.84:1 on cards, accent 6.49:1).
 - Star counts and the lightbox use platform features first: numbers come from one GitHub API call
   with the last known values written in the HTML as fallback, and the lightbox is a native
   `<dialog>`.
