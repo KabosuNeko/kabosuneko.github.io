@@ -8,7 +8,7 @@ No build step, no dependencies, no framework. Plain HTML, CSS, and JavaScript.
 ## Files
 
     index.html          projects and contact
-    gallery.html        photo gallery
+    gallery/index.html  photo gallery
     camp/index.html     camp check: weather and nearby camp sites
     404.html            error page
     robots.txt          crawler policy
