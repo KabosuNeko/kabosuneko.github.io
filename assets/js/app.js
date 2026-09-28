@@ -1,43 +1,6 @@
-// Shared app logic: theme, clock, toast, email copy, Nadeshiko greeting, corner characters.
+// Shared app logic: clock, toast, email copy, Nadeshiko greeting, star counts, camp check.
 (function () {
     'use strict';
-
-    var themeMode = localStorage.getItem('theme') || 'auto';
-
-    function getAutoTheme() {
-        var hour = new Date().getHours();
-        return hour >= 6 && hour < 18 ? 'day' : 'night';
-    }
-
-    function applyTheme() {
-        var theme = themeMode === 'auto' ? getAutoTheme() : themeMode;
-        var root = document.documentElement;
-        // Flip without a cross-fade, then let hover transitions work again on the next frame.
-        root.classList.add('no-transition');
-        root.setAttribute('data-theme', theme);
-        requestAnimationFrame(function () { root.classList.remove('no-transition'); });
-        // Browser chrome follows the page background; the token stays the single source of truth.
-        var meta = document.querySelector('meta[name="theme-color"]');
-        if (meta) {
-            var bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
-            if (bg) meta.setAttribute('content', bg);
-        }
-        var btn = document.getElementById('themeToggle');
-        if (btn) {
-            btn.textContent = themeMode === 'auto' ? '◐' : (themeMode === 'day' ? '☀' : '☾');
-            btn.setAttribute('aria-label', 'Color theme: ' + themeMode + ' (click to change)');
-        }
-    }
-
-    // Runs before first paint, and again on DOM ready to update the toggle button.
-    // The pre-paint pass now lives in an inline script in each page's head; keep the rule in sync.
-    applyTheme();
-
-    function toggleTheme() {
-        themeMode = themeMode === 'auto' ? 'day' : (themeMode === 'day' ? 'night' : 'auto');
-        localStorage.setItem('theme', themeMode);
-        applyTheme();
-    }
 
     function updateClock() {
         var now = new Date();
@@ -477,8 +440,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-        applyTheme();
-
         if (document.getElementById('clock')) {
             updateClock();
             // One write per displayed minute instead of 60: re-align to the next minute.
@@ -488,9 +449,6 @@
                 setTimeout(function () { updateClock(); scheduleClock(); }, delay);
             })();
         }
-
-        var themeToggle = document.getElementById('themeToggle');
-        if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
 
         document.querySelectorAll('[data-copy-email]').forEach(function (link) {
             link.addEventListener('click', copyEmail);

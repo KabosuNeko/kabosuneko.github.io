@@ -18,17 +18,8 @@
     <meta name="twitter:title" content="Camp check - Nainne">
     <meta name="twitter:description" content="Weather and the camp sites mapped in OpenStreetMap near you, for deciding whether tonight is a camping night.">
     <link rel="canonical" href="https://nainne.living-the.life/camp/">
-    <meta name="theme-color" content="#fbf1c7">
+    <meta name="theme-color" content="#1d2021">
     <link rel="icon" type="image/png" href="/assets/img/logo.png">
-    <script>
-        // Set the theme before first paint. Mirrors getAutoTheme() in assets/js/app.js.
-        (function () {
-            var mode = localStorage.getItem('theme') || 'auto';
-            var hour = new Date().getHours();
-            document.documentElement.setAttribute('data-theme',
-                mode === 'auto' ? (hour >= 6 && hour < 18 ? 'day' : 'night') : mode);
-        })();
-    </script>
     <link rel="preload" href="/assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/css/styles.css">
     <script src="/assets/js/app.js" defer></script>
@@ -39,7 +30,6 @@
         <div class="clock-widget">
             <img src="/assets/img/logo.png" alt="">
             <span class="clock-time" id="clock">--:--</span>
-            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme">☀</button>
         </div>
     </header>
 

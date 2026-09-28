@@ -15,7 +15,7 @@ No build step, no dependencies, no framework. Plain HTML, CSS, and JavaScript.
     sitemap.xml         indexable URLs
     DESIGN.md           design direction, dials, and the reason for each decision
     assets/css/         styles.css (shared, theme tokens, font faces), gallery.css (grid, lightbox)
-    assets/js/          app.js (theme, clock, toast, greeting, star counts, camp check), gallery.js (lightbox)
+    assets/js/          app.js (clock, toast, greeting, star counts, camp check), gallery.js (lightbox)
     assets/fonts/       Nunito subsets, self-hosted
     assets/img/         logo, avatar, mascots
     assets/gallery/     photos and their display variants
@@ -74,13 +74,13 @@ Push to `main`. GitHub Pages serves the repository root as is.
 
 ## Notes
 
-- The pages content works without JavaScript. JavaScript adds the theme toggle, the clock, the
-  Nadeshiko greeting, updated star counts, and the gallery lightbox.
+- The pages content works without JavaScript. JavaScript adds the clock, the Nadeshiko greeting,
+  updated star counts, and the gallery lightbox.
 - The Email chip copies the address and says so; without a working clipboard it opens the mail client
   instead of doing nothing.
-- Themes: auto follows the clock (06:00 to 18:00 is day, otherwise night) and is re-checked while a
-  tab stays open; the toggle cycles auto, day, night and the explicit choice is remembered. Both
-  themes are verified against WCAG AA contrast.
+- One theme, dark. The background is a night sky: three SVG star tiles in `styles.css` (200px,
+  320px and a 140px twinkle layer behind the content), no images to load and no requests. Reduced
+  motion stops the twinkle. Contrast is verified against that single palette.
 - Star counts and the lightbox use platform features first: numbers come from one GitHub API call
   with the last known values written in the HTML as fallback, and the lightbox is a native
   `<dialog>`.

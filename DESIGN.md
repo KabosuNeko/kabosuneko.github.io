@@ -1,15 +1,17 @@
 # Design direction
 
-A quiet, typographic personal page on a Gruvbox palette. Warm surfaces, one accent, and two
-Yuru Camp mascots as the only ornament.
+A quiet, typographic personal page for the night: Gruvbox dark, a sky full of stars behind the
+content, and two Yuru Camp mascots as the only ornament.
 
-Dial: ENERGY 1 / RHYTHM 1 / MOTION 1
+Dial: ENERGY 1 / RHYTHM 1 / MOTION 2 (one slow twinkle)
 
-## Palette (2 core + 1 accent)
+## Palette (one theme, dark)
 
-- Core: warm paper surfaces (background, card) and ink text, in light and dark Gruvbox.
-- Accent: Gruvbox orange, reserved for section labels, hover, focus rings, and the dark-mode glow.
-- The palette mirrors the owner's Linux desktop theme.
+- Core: Gruvbox dark surfaces (#1d2021 ground, #32302f cards) with #ebdbb2 ink; muted #a89984.
+- Accent: Gruvbox orange (#fe8019) for section labels, hover, focus rings and the glow on the
+  section labels and the name. It is the only saturated colour on the page.
+- One theme, no switch: there is no light palette to keep in sync, so every contrast pair is
+  verified once. The palette mirrors the owner's Linux desktop theme.
 
 ## Type
 
@@ -25,10 +27,9 @@ Dial: ENERGY 1 / RHYTHM 1 / MOTION 1
   buttons are round. Nothing is a 999px pill.
 - Shadows belong to what floats above the page: the toast, the tooltips and the greeting bubble.
   Static cards use a hairline border instead of a shadow.
-- Transitions live on interactive elements only (links and buttons). Switching theme adds a
-  one-frame `no-transition` class, so the ground and the text flip together instead of the text
-  cross-fading over a background that already switched; that also keeps computed styles honest when
-  measuring contrast.
+- Transitions live on interactive elements only (links and buttons), named property by property,
+  at 150ms: hover is a high-frequency interaction and a longer fade reads as lag. Nothing else on
+  the page animates except the star twinkle.
 - The star beside a star count is an SVG from the sprite, not the ★ character: Nunito's latin subset
   has no U+2605, so a text glyph would be drawn by whichever symbol font the visitor happens to have.
 
@@ -38,10 +39,13 @@ Dial: ENERGY 1 / RHYTHM 1 / MOTION 1
   that the link leaves the site.
 - Contact entries are chips with icon plus label, each opening a real destination.
 - Sections use a label and a hairline rule instead of colored slabs: hierarchy comes from type.
-- Paper grain (4%) and the night sky stars (dark mode) support the camping identity; they carry
-  no information.
-- Glow is limited to two dark-mode elements (section labels, name) so headings do not sink into
-  the background.
+- The background is a night sky: three tile layers of stars at different scales (200px, 320px,
+  140px) behind the content, plus a slow twinkle on the brightest layer. The tiles are hand-built
+  SVG data URIs, so the sky costs a few KB of CSS and no requests. The paper grain went with the
+  paper palette.
+- The brightest star layer sits at `z-index: -1` so it paints behind the text rather than over it.
+- Glow is limited to two elements (section labels, name) so headings do not sink into the
+  background.
 - Nadeshiko greets by time of day and links to the camp check; Rin is a plain link to the gallery.
   Neither is navigation furniture: they are the two destinations the page has, drawn as mascots.
 - Rin is the only route to the gallery. A photos chip was tried in the contact list and dropped:
@@ -60,15 +64,17 @@ Dial: ENERGY 1 / RHYTHM 1 / MOTION 1
 
 ## Constraints
 
-- Auto theme follows the clock (06:00 to 18:00 day, otherwise night), like Nadeshiko's greeting.
-  The toggle overrides it and the explicit choice is remembered.
-- The theme toggle keeps its 34px circle but carries a 44px hit area, so the row stays quiet without
-  a small touch target.
-- The 404 page carries the same header, theme toggle and mascots, so an error never lands the
-  visitor on a page that looks like a different site.
+- Dark only. A light theme was tried and dropped: two palettes meant two contrast checks, a toggle to
+  explain, a pre-paint script to avoid a flash, and a one-frame transition guard for the flip. The
+  page is a night camp, so it stays night.
+- The 404 page carries the same header and mascots, so an error never lands the visitor on a page
+  that looks like a different site.
 - The camp check never pretends: it names the place it fell back to ("Hanoi (default)") when there is
   no location permission, and says so when a service does not answer.
 - A page that cannot work without JavaScript says so in a `<noscript>` line, unlike the rest of the
   site, which reads fine with scripts off.
-- WCAG AA contrast in both themes, keyboard reachable, visible focus.
+- WCAG AA contrast, verified once because there is one theme: ink 11.95:1 and muted 5.9:1 on the
+  ground, muted 4.72:1 on cards, the orange accent 6.49:1. The star tiles stay behind the content
+  and their dots are 1.8px or smaller, so they never sit inside a glyph.
+- Keyboard reachable, visible focus.
 - No invented content: no fake numbers, no testimonials, no placeholder sections.
