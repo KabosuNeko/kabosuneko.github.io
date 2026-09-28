@@ -7,8 +7,9 @@ No build step, no dependencies, no framework. Plain HTML, CSS, and JavaScript.
 
 ## Files
 
-    index.html          projects, photos link and contact
+    index.html          projects and contact
     gallery.html        photo gallery
+    camp/index.html     camp check: weather and nearby camp sites
     404.html            error page
     robots.txt          crawler policy
     sitemap.xml         indexable URLs
@@ -42,18 +43,24 @@ The first photo in the grid loads eagerly with `fetchpriority="high"`; the rest 
 
 ## Camp check
 
-Clicking Nadeshiko opens a panel with the weather and the camp sites mapped in OpenStreetMap within
-50 km. It asks the browser for a location only after that click and gives up after 2.5 s, falling back
-to `DEFAULT_PLACE` in `assets/js/app.js` (Hanoi) and saying so in the panel.
+`/camp/` shows the weather and the camp sites mapped in OpenStreetMap around you, sorted by distance,
+with a radius switch (10/50/100 km) and a seven day forecast. Nadeshiko links to it from every page
+and re-runs the lookup when she is clicked on it.
 
-Two keyless services are involved, both of which require attribution that the panel displays:
+The page asks the browser for a location when it loads and again if you press "Use my location"; it
+waits 2.5 s at most and falls back to `DEFAULT_PLACE` in `assets/js/app.js` (Hanoi), naming the place
+it used. The forecast paints as soon as it arrives, so a slow camp list never holds it back.
+
+Two keyless services are involved, and both licences require the attribution the page displays:
 
 - weather: `api.open-meteo.com`, cached 20 minutes per rounded coordinate
-- camp sites: `overpass-api.de` with `overpass.kumi.systems` as a second try, cached 24 hours
+- camp sites: `overpass-api.de`, retried on `overpass.openstreetmap.fr` (the first instance 504s under
+  load), cached 24 hours per coordinate and radius. The instance that answered last is tried first next
+  time, which turns a 7 s stall into a 1.5 s lookup
 
-The radius is `RADIUS_M` and the fallback place is `DEFAULT_PLACE`, both in `assets/js/app.js`. If
-both services fail the panel says so instead of showing an empty box; the greeting bubble is
-unchanged and still fires on load.
+Every failure is visible: a busy Overpass gets a line plus a link to the same coordinates on
+openstreetmap.org, and a dead forecast says so. `CACHE_V` in `assets/js/app.js` prefixes the cache
+keys, so changing the shape of a cached object cannot strand an old copy in someone's browser.
 
 ## Running
 

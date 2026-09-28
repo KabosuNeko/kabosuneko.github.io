@@ -532,68 +532,71 @@ body::after {
   100% { transform: translateY(0) scale(1, 1); }
 }
 
-/* Camp check: weather from Open-Meteo, camp sites from OpenStreetMap. It floats, so it keeps
-   the soft shadow that static cards no longer use. */
-.camp-panel {
-  position: fixed;
-  left: 16px;
-  bottom: 156px;
-  z-index: 200;
-  width: min(320px, calc(100vw - 32px));
-  max-height: min(70vh, 520px);
-  overflow: auto;
-  padding: 16px 18px 14px;
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-lg);
-  background: var(--card-bg);
-  box-shadow: 0 10px 30px var(--shadow-soft);
-  font-size: 0.85rem;
+/* Camp check page: weather from Open-Meteo, camp sites from OpenStreetMap. */
+.camp-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 24px 96px;
 }
 
-.camp-panel[hidden] {
-  display: none;
+.camp-header {
+  margin-bottom: 28px;
 }
 
-.camp-panel-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
+.camp-title {
+  margin: 0 0 6px;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-dark);
 }
 
-.camp-panel-title {
+.camp-subtitle {
   margin: 0;
-  font-size: 0.78rem;
+  font-size: 0.95rem;
+  color: var(--text-medium);
+}
+
+.camp-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.camp-control {
+  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent);
 }
 
-.camp-panel-close {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  flex: none;
-  padding: 0;
+.camp-select,
+.camp-locate {
+  padding: 10px 14px;
   border: 1px solid var(--card-border);
-  border-radius: 50%;
-  background: transparent;
-  color: var(--text-medium);
+  border-radius: var(--radius-md);
+  background: var(--card-bg);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.camp-select {
   cursor: pointer;
 }
 
-.camp-panel-close:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+.camp-locate {
+  cursor: pointer;
 }
 
-.camp-panel-close svg {
-  width: 12px;
-  height: 12px;
-  fill: currentColor;
+.camp-locate:hover,
+.camp-select:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .camp-weather {
@@ -604,7 +607,7 @@ body::after {
 }
 
 .camp-weather-temp {
-  font-size: 1.7rem;
+  font-size: 2.4rem;
   font-weight: 800;
   line-height: 1;
 }
@@ -614,21 +617,73 @@ body::after {
 }
 
 .camp-meta,
-.camp-loc,
-.camp-panel-note {
+.camp-loc {
   margin: 0 0 10px;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--text-medium);
 }
 
 .camp-verdict {
-  margin: 0 0 14px;
+  margin: 0 0 24px;
   font-weight: 700;
+}
+
+.camp-section {
+  margin: 0 0 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.camp-days {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+}
+
+.camp-days li {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 7px 0;
+  border-top: 1px solid var(--card-border);
+  font-size: 0.9rem;
+}
+
+.camp-days li:first-child {
+  border-top: 0;
+}
+
+.camp-day-name {
+  width: 3.2em;
+  flex: none;
+  font-weight: 700;
+}
+
+.camp-day-cond {
+  flex: 1;
+  min-width: 0;
+  color: var(--text-medium);
+}
+
+.camp-day-temps {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.camp-day-rain {
+  width: 3.4em;
+  flex: none;
+  text-align: right;
+  color: var(--text-medium);
+  font-variant-numeric: tabular-nums;
 }
 
 .camp-list {
   list-style: none;
-  margin: 0 0 14px;
+  margin: 0 0 24px;
   padding: 0;
 }
 
@@ -641,8 +696,8 @@ body::after {
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  padding: 6px 8px;
-  margin: 0 -8px;
+  padding: 8px 10px;
+  margin: 0 -10px;
   border-radius: var(--radius-sm);
 }
 
@@ -659,9 +714,9 @@ body::after {
 
 .camp-credit {
   margin: 0;
-  padding-top: 10px;
+  padding-top: 12px;
   border-top: 1px solid var(--card-border);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   color: var(--text-medium);
 }
 
@@ -729,10 +784,6 @@ body::after {
 
   .corner-character {
     bottom: 8px;
-  }
-
-  .camp-panel {
-    bottom: 94px;
   }
 }
 

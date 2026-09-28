@@ -42,16 +42,20 @@ Dial: ENERGY 1 / RHYTHM 1 / MOTION 1
   no information.
 - Glow is limited to two dark-mode elements (section labels, name) so headings do not sink into
   the background.
-- Nadeshiko is a button that greets by time of day; Rin is a plain link to the gallery.
+- Nadeshiko greets by time of day and links to the camp check; Rin is a plain link to the gallery.
+  Neither is navigation furniture: they are the two destinations the page has, drawn as mascots.
 - Rin is the only route to the gallery. A photos chip was tried in the contact list and dropped:
   a second path to the same page is noise, and the mascot already carries it.
 - Star counts come from the GitHub API, with the last known values in the HTML as fallback.
-- Nadeshiko opens a camp check: current weather plus the camp sites mapped in OpenStreetMap within
-  50 km, sorted by distance. It is the only part of the page that talks to a third party besides the
-  star counts, so it caches (20 minutes for weather, 24 hours for sites), gives up after 8-9 s, tries
-  a second Overpass mirror, and degrades to a single honest line when neither answer arrives.
-- Weather comes from Open-Meteo and sites from Overpass, both keyless. Their licences require
-  attribution, so the panel carries "© OpenStreetMap contributors · Weather: Open-Meteo.com" — not
+- The camp check is a page, not an overlay: as a panel it covered the project rows on a phone and had
+  nowhere to put a forecast or a radius switch. Nadeshiko links to `/camp/` from every page, and on
+  that page she is a button that looks the location up again.
+- That page is the only place besides the star counts that talks to a third party. It asks for a
+  location on load and on demand, waits 2.5 s at most, paints the forecast the moment it arrives
+  instead of holding it for the slower camp list, remembers which Overpass instance answered last,
+  and caches by coordinate and radius (20 minutes for weather, 24 hours for camp sites).
+- Weather comes from Open-Meteo and sites from OpenStreetMap, both keyless. Their licences require
+  attribution, so the page carries "© OpenStreetMap contributors · Weather: Open-Meteo.com" — not
   decoration, a condition of using the data.
 
 ## Constraints
@@ -62,7 +66,9 @@ Dial: ENERGY 1 / RHYTHM 1 / MOTION 1
   a small touch target.
 - The 404 page carries the same header, theme toggle and mascots, so an error never lands the
   visitor on a page that looks like a different site.
-- The camp check asks for a location only after a click, waits 2.5 s at most, and names the place it
-  fell back to ("Hanoi (default)") rather than pretending the numbers are the visitor's.
+- The camp check never pretends: it names the place it fell back to ("Hanoi (default)") when there is
+  no location permission, and says so when a service does not answer.
+- A page that cannot work without JavaScript says so in a `<noscript>` line, unlike the rest of the
+  site, which reads fine with scripts off.
 - WCAG AA contrast in both themes, keyboard reachable, visible focus.
 - No invented content: no fake numbers, no testimonials, no placeholder sections.

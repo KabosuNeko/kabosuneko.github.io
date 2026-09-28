@@ -130,9 +130,11 @@
     var DEFAULT_PLACE = { lat: 21.0285, lon: 105.8542, label: 'Hanoi (default)' };
     var OVERPASS = [
         'https://overpass-api.de/api/interpreter',
-        'https://overpass.kumi.systems/api/interpreter'
+        'https://overpass.openstreetmap.fr/api/interpreter' // the .de instance 504s under load
     ];
-    var RADIUS_M = 50000;
+    var CACHE_V = 'v1'; // bump when a cached object changes shape
+    var FORECAST_DAYS = 7;
+    var WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     var WEATHER_CODES = {
         0: 'Clear sky', 1: 'Mostly clear', 2: 'Partly cloudy', 3: 'Overcast',
         45: 'Fog', 48: 'Freezing fog', 51: 'Light drizzle', 53: 'Drizzle', 55: 'Heavy drizzle',
@@ -141,6 +143,7 @@
         80: 'Light showers', 81: 'Showers', 82: 'Violent showers', 85: 'Snow showers', 86: 'Snow showers',
         95: 'Thunderstorm', 96: 'Thunderstorm with hail', 99: 'Thunderstorm with hail'
     };
+    var campPlace = null; // remembered between runs so changing the radius does not ask again
 
     function storeGet(key, ttl) {
         try {
@@ -171,7 +174,7 @@
 
     function locate() {
         // Some browsers neither answer nor fail when no location provider is available, so the
-        // panel never waits longer than this before falling back to the default place.
+        // page never waits longer than this before falling back to the default place.
         var WAIT_MS = 2500;
         return new Promise(function (resolve) {
             var done = false;
@@ -202,14 +205,24 @@
     }
 
     function loadWeather(place) {
-        var key = 'wx:' + place.lat.toFixed(2) + ',' + place.lon.toFixed(2);
+        var key = CACHE_V + ':wx:' + place.lat.toFixed(2) + ',' + place.lon.toFixed(2);
         var cached = storeGet(key, 20 * 60 * 1000);
         if (cached) return Promise.resolve(cached);
         var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + place.lat + '&longitude=' + place.lon +
             '&current=temperature_2m,precipitation,weather_code,wind_speed_10m' +
             '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum' +
-            '&forecast_days=1&timezone=auto';
+            '&forecast_days=' + FORECAST_DAYS + '&timezone=auto';
         return fetchJson(url, 8000).then(function (d) {
+            var days = (d.daily.time || []).map(function (date, i) {
+                return {
+                    date: date,
+                    code: d.daily.weather_code[i],
+                    tmax: d.daily.temperature_2m_max[i],
+                    tmin: d.daily.temperature_2m_min[i],
+                    rain: d.daily.precipitation_probability_max[i],
+                    sum: d.daily.precipitation_sum[i]
+                };
+            });
             var w = {
                 temp: d.current.temperature_2m,
                 code: d.current.weather_code,
@@ -217,23 +230,35 @@
                 tmax: d.daily.temperature_2m_max[0],
                 tmin: d.daily.temperature_2m_min[0],
                 rain: d.daily.precipitation_probability_max[0],
-                sum: d.daily.precipitation_sum[0]
+                sum: d.daily.precipitation_sum[0],
+                days: days
             };
             storeSet(key, w);
             return w;
         });
     }
 
-    function loadCamps(place) {
-        var key = 'camp:' + place.lat.toFixed(2) + ',' + place.lon.toFixed(2);
+    function loadCamps(place, radiusM) {
+        var km = Math.round(radiusM / 1000);
+        var key = CACHE_V + ':camp:' + km + ':' + place.lat.toFixed(2) + ',' + place.lon.toFixed(2);
         var cached = storeGet(key, 24 * 60 * 60 * 1000);
         if (cached) return Promise.resolve(cached);
-        var query = '[out:json][timeout:25];nwr["tourism"="camp_site"](around:' + RADIUS_M + ',' +
-            place.lat + ',' + place.lon + ');out center 40;';
+        var query = '[out:json][timeout:25];nwr["tourism"="camp_site"](around:' + radiusM + ',' +
+            place.lat + ',' + place.lon + ');out center 60;';
+        // Try the instance that answered last time first: the primary spend 7 s under load.
+        var last = storeGet(CACHE_V + ':mirror', Infinity);
+        var order = OVERPASS.slice();
+        if (last && order.indexOf(last) > 0) {
+            order.splice(order.indexOf(last), 1);
+            order.unshift(last);
+        }
         var attempt = function (i) {
-            if (i >= OVERPASS.length) return Promise.reject(new Error('overpass unavailable'));
-            return fetchJson(OVERPASS[i] + '?data=' + encodeURIComponent(query), 9000)
-                .then(function (d) { return d.elements || []; })
+            if (i >= order.length) return Promise.reject(new Error('overpass unavailable'));
+            return fetchJson(order[i] + '?data=' + encodeURIComponent(query), 7000)
+                .then(function (d) {
+                    storeSet(CACHE_V + ':mirror', order[i]);
+                    return d.elements || [];
+                })
                 .catch(function () { return attempt(i + 1); });
         };
         return attempt(0).then(function (els) {
@@ -246,7 +271,9 @@
                     km: distanceKm(place, lat, lon),
                     url: 'https://www.openstreetmap.org/' + e.type + '/' + e.id
                 };
-            }).filter(Boolean).sort(function (a, b) { return a.km - b.km; }).slice(0, 8);
+            }).filter(function (s) { return s && s.km <= km; })
+                .sort(function (a, b) { return a.km - b.km; })
+                .slice(0, 20);
             storeSet(key, sites);
             return sites;
         });
@@ -259,6 +286,21 @@
         return 'Good night for a camp.';
     }
 
+    function osmFallback() {
+        var p = document.createElement('p');
+        p.className = 'camp-meta';
+        p.appendChild(document.createTextNode('OpenStreetMap did not answer just now — its Overpass instances get busy. '));
+        var a = document.createElement('a');
+        a.href = 'https://www.openstreetmap.org/#map=10/' +
+            campPlace.place.lat.toFixed(3) + '/' + campPlace.place.lon.toFixed(3);
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = 'Look it up on openstreetmap.org';
+        p.appendChild(a);
+        p.appendChild(document.createTextNode('.'));
+        return p;
+    }
+
     function line(className, text) {
         var p = document.createElement('p');
         p.className = className;
@@ -266,16 +308,28 @@
         return p;
     }
 
-    function renderCampPanel(loc, weather, camps) {
-        var body = document.getElementById('campPanelBody');
+    function dayLabel(isoDate) {
+        var d = new Date(isoDate + 'T12:00:00');
+        return WEEKDAYS[d.getDay()];
+    }
+
+    function renderCamp(loc, state) {
+        var weather = state.weather, camps = state.camps;
+        var body = document.getElementById('campBody');
         if (!body) return;
         body.textContent = '';
 
         if (!loc.sure) body.appendChild(line('camp-loc', 'No location permission, so this is ' + loc.place.label + '.'));
         if (!weather && !camps) {
-            body.appendChild(line('camp-panel-note', 'Cannot reach the forecast or the map right now.'));
+            if (!(state.weatherDone && state.campsDone)) {
+                body.appendChild(line('camp-meta', 'Checking the sky…'));
+                return;
+            }
+            body.appendChild(line('camp-meta', 'Cannot reach the forecast right now.'));
+            body.appendChild(osmFallback());
             return;
         }
+
         if (weather) {
             var row = document.createElement('p');
             row.className = 'camp-weather';
@@ -289,12 +343,49 @@
             row.appendChild(desc);
             body.appendChild(row);
             body.appendChild(line('camp-meta',
-                'Rain today ' + weather.rain + '% · ' + Math.round(weather.tmin) + '–' + Math.round(weather.tmax) + '°C · wind ' + Math.round(weather.wind) + ' km/h'));
+                'Rain today ' + weather.rain + '% · ' + Math.round(weather.tmin) + '–' + Math.round(weather.tmax) +
+                '°C · wind ' + Math.round(weather.wind) + ' km/h'));
             body.appendChild(line('camp-verdict', campVerdict(weather)));
+
+            if (weather.days && weather.days.length > 1) {
+                body.appendChild(line('camp-section', 'Next ' + weather.days.length + ' days'));
+                var days = document.createElement('ul');
+                days.className = 'camp-days';
+                weather.days.forEach(function (d) {
+                    var li = document.createElement('li');
+                    var name = document.createElement('span');
+                    name.className = 'camp-day-name';
+                    name.textContent = dayLabel(d.date);
+                    var cond = document.createElement('span');
+                    cond.className = 'camp-day-cond';
+                    cond.textContent = WEATHER_CODES[d.code] || '';
+                    var temps = document.createElement('span');
+                    temps.className = 'camp-day-temps';
+                    temps.textContent = Math.round(d.tmin) + '–' + Math.round(d.tmax) + '°';
+                    var rain = document.createElement('span');
+                    rain.className = 'camp-day-rain';
+                    rain.textContent = d.rain + '%';
+                    li.appendChild(name);
+                    li.appendChild(cond);
+                    li.appendChild(temps);
+                    li.appendChild(rain);
+                    days.appendChild(li);
+                });
+                body.appendChild(days);
+            }
+        }
+
+        var radiusKm = document.getElementById('campRadius') ? Math.round(document.getElementById('campRadius').value / 1000) : 50;
+        var heading = camps && camps.length
+            ? camps.length + ' camp site' + (camps.length === 1 ? '' : 's') + ' within ' + radiusKm + ' km'
+            : 'Camp sites within ' + radiusKm + ' km';
+        body.appendChild(line('camp-section', heading));
+        if (!camps && !state.campsDone) {
+            body.appendChild(line('camp-meta', 'Looking for camp sites…'));
+        } else if (!camps) {
+            body.appendChild(osmFallback());
         }
         if (camps && camps.length) {
-            var head = line('camp-meta', camps.length + ' camp site' + (camps.length === 1 ? '' : 's') + ' within ' + (RADIUS_M / 1000) + ' km');
-            body.appendChild(head);
             var list = document.createElement('ul');
             list.className = 'camp-list';
             camps.forEach(function (s) {
@@ -315,8 +406,9 @@
             });
             body.appendChild(list);
         } else if (camps) {
-            body.appendChild(line('camp-meta', 'No camp site mapped within ' + (RADIUS_M / 1000) + ' km.'));
+            body.appendChild(line('camp-meta', 'Nothing mapped in OpenStreetMap at this radius — the map is thin outside cities.'));
         }
+
         var credit = document.createElement('p');
         credit.className = 'camp-credit';
         var osm = document.createElement('a');
@@ -335,35 +427,39 @@
         body.appendChild(credit);
     }
 
-    function closeCampPanel() {
-        var panel = document.getElementById('campPanel');
-        var btn = document.querySelector('.nadeshiko');
-        if (!panel || panel.hidden) return;
-        panel.hidden = true;
-        if (btn) {
-            btn.setAttribute('aria-expanded', 'false');
-            btn.focus();
+    function runCampCheck(askAgain) {
+        var body = document.getElementById('campBody');
+        if (!body) return;
+        var select = document.getElementById('campRadius');
+        var radiusM = select ? parseInt(select.value, 10) : 50000;
+        if (!campPlace || askAgain) {
+            body.textContent = '';
+            body.appendChild(line('camp-meta', 'Looking for you…'));
+            return locate().then(function (found) {
+                campPlace = found;
+                return runCampCheck(false);
+            });
         }
-    }
-
-    function openCampPanel() {
-        var panel = document.getElementById('campPanel');
-        var btn = document.querySelector('.nadeshiko');
-        if (!panel || !btn) return;
-        var bubble = document.getElementById('nadeBubble');
-        if (bubble) bubble.classList.remove('show');
-        panel.hidden = false;
-        btn.setAttribute('aria-expanded', 'true');
-        var body = document.getElementById('campPanelBody');
-        body.textContent = '';
-        body.appendChild(line('camp-panel-note', 'Checking the sky…'));
-        var closer = panel.querySelector('.camp-panel-close');
-        if (closer) closer.focus();
-        locate().then(function (loc) {
-            return Promise.all([
-                loadWeather(loc.place).catch(function () { return null; }),
-                loadCamps(loc.place).catch(function () { return null; })
-            ]).then(function (res) { renderCampPanel(loc, res[0], res[1]); });
+        // Each half paints as soon as it lands: the forecast is quick, Overpass can take seconds
+        // (and up to two mirrors) so the list must not hold the weather hostage.
+        var state = { weather: null, camps: null, weatherDone: false, campsDone: false };
+        var paint = function () { renderCamp(campPlace, state); };
+        paint();
+        loadWeather(campPlace.place).then(function (w) {
+            state.weather = w;
+            state.weatherDone = true;
+            paint();
+        }, function () {
+            state.weatherDone = true;
+            paint();
+        });
+        loadCamps(campPlace.place, radiusM).then(function (c) {
+            state.camps = c;
+            state.campsDone = true;
+            paint();
+        }, function () {
+            state.campsDone = true;
+            paint();
         });
     }
 
@@ -391,26 +487,22 @@
 
         var nade = document.querySelector('.nadeshiko');
         if (nade) {
-            nade.addEventListener('click', function () {
-                var panel = document.getElementById('campPanel');
-                if (panel && !panel.hidden) closeCampPanel();
-                else openCampPanel();
-            });
+            // On the camp page she re-runs the lookup; every other page links her to that page.
+            if (nade.tagName === 'BUTTON' && document.getElementById('campBody')) {
+                nade.addEventListener('click', function () {
+                    greetNadeshiko();
+                    runCampCheck(true);
+                });
+            }
             setTimeout(greetNadeshiko, 500); // greet once shortly after the page appears
         }
 
-        var campPanel = document.getElementById('campPanel');
-        if (campPanel) {
-            var closer = campPanel.querySelector('.camp-panel-close');
-            if (closer) closer.addEventListener('click', closeCampPanel);
-            campPanel.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape') closeCampPanel();
-            });
-            document.addEventListener('click', function (e) {
-                if (campPanel.hidden) return;
-                if (e.target.closest && (e.target.closest('#campPanel') || e.target.closest('.nadeshiko'))) return;
-                closeCampPanel();
-            });
+        if (document.getElementById('campBody')) {
+            var radius = document.getElementById('campRadius');
+            if (radius) radius.addEventListener('change', function () { runCampCheck(false); });
+            var relocate = document.getElementById('campLocate');
+            if (relocate) relocate.addEventListener('click', function () { runCampCheck(true); });
+            runCampCheck(true);
         }
     });
 })();

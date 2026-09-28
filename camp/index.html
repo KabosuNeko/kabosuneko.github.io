@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camp check - Nainne</title>
+    <meta name="description" content="Weather and the camp sites mapped in OpenStreetMap near you, for deciding whether tonight is a camping night.">
+    <meta property="og:title" content="Camp check - Nainne">
+    <meta property="og:description" content="Weather and the camp sites mapped in OpenStreetMap near you, for deciding whether tonight is a camping night.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nainne.living-the.life/camp/">
+    <meta property="og:image" content="https://nainne.living-the.life/assets/img/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Trees on the shore of a lake, reflected in the water.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Camp check - Nainne">
+    <meta name="twitter:description" content="Weather and the camp sites mapped in OpenStreetMap near you, for deciding whether tonight is a camping night.">
+    <link rel="canonical" href="https://nainne.living-the.life/camp/">
+    <meta name="theme-color" content="#fbf1c7">
+    <link rel="icon" type="image/png" href="/assets/img/logo.png">
+    <script>
+        // Set the theme before first paint. Mirrors getAutoTheme() in assets/js/app.js.
+        (function () {
+            var mode = localStorage.getItem('theme') || 'auto';
+            var hour = new Date().getHours();
+            document.documentElement.setAttribute('data-theme',
+                mode === 'auto' ? (hour >= 6 && hour < 18 ? 'day' : 'night') : mode);
+        })();
+    </script>
+    <link rel="preload" href="/assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <script src="/assets/js/app.js" defer></script>
+</head>
+
+<body>
+    <header class="page-header">
+        <div class="clock-widget">
+            <img src="/assets/img/logo.png" alt="">
+            <span class="clock-time" id="clock">--:--</span>
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme">☀</button>
+        </div>
+    </header>
+
+    <div class="camp-page">
+        <div class="camp-header">
+            <a href="/" class="back-link">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="1em" height="1em" fill="currentColor" aria-hidden="true">
+                    <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 214.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+                Back home
+            </a>
+            <h1 class="camp-title">Camp check</h1>
+            <p class="camp-subtitle">Weather and the camp sites mapped in OpenStreetMap, for deciding whether tonight is a camping night.</p>
+        </div>
+
+        <div class="camp-controls">
+            <label class="camp-control" for="campRadius">Radius</label>
+            <select class="camp-select" id="campRadius">
+                <option value="10000">10 km</option>
+                <option value="50000" selected>50 km</option>
+                <option value="100000">100 km</option>
+            </select>
+            <button class="camp-locate" id="campLocate" type="button">Use my location</button>
+        </div>
+
+        <div class="camp-body" id="campBody" aria-live="polite">
+            <p class="camp-meta">Checking the sky…</p>
+        </div>
+
+        <noscript>
+            <p class="camp-meta">This page needs JavaScript: it asks the browser for a location and reads the
+            weather from Open-Meteo and the camp sites from OpenStreetMap.</p>
+        </noscript>
+    </div>
+
+    <button class="corner-character nadeshiko" type="button" aria-label="Look up my location again" data-tooltip="Look up again">
+        <img src="/assets/img/nadeshiko.webp" alt="">
+        <span class="nade-bubble" id="nadeBubble" role="status"></span>
+    </button>
+    <a class="corner-character rin" href="/gallery.html" aria-label="Photo gallery" data-tooltip="Open gallery">
+        <img src="/assets/img/rin.webp" alt="">
+    </a>
+</body>
+
+</html>
