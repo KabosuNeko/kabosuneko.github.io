@@ -243,16 +243,16 @@
     }
 
     function campVerdict(w) {
-        if (w.sum >= 5 || w.rain >= 60) return 'Rain is likely — bring a tarp.';
-        if (w.tmin <= 8) return 'Cold night ahead — pack a warmer bag.';
-        if (w.wind >= 35) return 'Windy — look for a sheltered pitch.';
+        if (w.sum >= 5 || w.rain >= 60) return 'Rain is likely. Bring a tarp.';
+        if (w.tmin <= 8) return 'Cold night ahead. Pack a warmer bag.';
+        if (w.wind >= 35) return 'Windy. Look for a sheltered pitch.';
         return 'Good night for a camp.';
     }
 
     function osmFallback() {
         var p = document.createElement('p');
         p.className = 'camp-meta';
-        p.appendChild(document.createTextNode('OpenStreetMap did not answer just now — its Overpass instances get busy. '));
+        p.appendChild(document.createTextNode('OpenStreetMap did not answer just now: its Overpass instances get busy. '));
         var a = document.createElement('a');
         a.href = 'https://www.openstreetmap.org/#map=10/' +
             campPlace.place.lat.toFixed(3) + '/' + campPlace.place.lon.toFixed(3);
@@ -376,7 +376,7 @@
             });
             body.appendChild(list);
         } else if (camps) {
-            body.appendChild(line('camp-meta', 'Nothing mapped in OpenStreetMap at this radius — the map is thin outside cities.'));
+            body.appendChild(line('camp-meta', 'Nothing mapped in OpenStreetMap at this radius. The map is thin outside cities.'));
         }
 
         var credit = document.createElement('p');

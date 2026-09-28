@@ -62,8 +62,8 @@ Dial: ENERGY 1 / RHYTHM 1 / MOTION 1
   instead of holding it for the slower camp list, remembers which Overpass instance answered last,
   and caches by coordinate and radius (20 minutes for weather, 24 hours for camp sites).
 - Weather comes from Open-Meteo and sites from OpenStreetMap, both keyless. Their licences require
-  attribution, so the page carries "© OpenStreetMap contributors · Weather: Open-Meteo.com" — not
-  decoration, a condition of using the data.
+  attribution, so the page carries "© OpenStreetMap contributors · Weather: Open-Meteo.com", not
+  decoration: a condition of using the data.
 
 ## Constraints
 
