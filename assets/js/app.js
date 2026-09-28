@@ -11,7 +11,11 @@
 
     function applyTheme() {
         var theme = themeMode === 'auto' ? getAutoTheme() : themeMode;
-        document.documentElement.setAttribute('data-theme', theme);
+        var root = document.documentElement;
+        // Flip without a cross-fade, then let hover transitions work again on the next frame.
+        root.classList.add('no-transition');
+        root.setAttribute('data-theme', theme);
+        requestAnimationFrame(function () { root.classList.remove('no-transition'); });
         // Browser chrome follows the page background; the token stays the single source of truth.
         var meta = document.querySelector('meta[name="theme-color"]');
         if (meta) {
@@ -104,9 +108,18 @@
                 list.forEach(function (repo) { stars[repo.name.toLowerCase()] = repo.stargazers_count; });
                 tags.forEach(function (tag) {
                     var count = stars[tag.getAttribute('data-repo').toLowerCase()];
-                    if (typeof count === 'number') {
-                        tag.textContent = tag.getAttribute('data-lang') + ' · ' + count + '★';
-                    }
+                    if (typeof count !== 'number') return;
+                    var lang = tag.getAttribute('data-lang');
+                    tag.textContent = lang + ' · ' + count;
+                    // The star comes from the sprite: the rounded font has no U+2605, so a text
+                    // glyph would be drawn by whichever symbol font the visitor happens to have.
+                    var star = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    star.setAttribute('role', 'img');
+                    star.setAttribute('aria-label', 'stars');
+                    var use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+                    use.setAttribute('href', '#icon-star');
+                    star.appendChild(use);
+                    tag.appendChild(star);
                 });
             })
             .catch(function () {});

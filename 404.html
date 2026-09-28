@@ -22,63 +22,16 @@
     <script src="/assets/js/app.js" defer></script>
     <link rel="preload" href="/assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/assets/css/styles.css">
-    <style>
-        .error-wrap {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            position: relative;
-            z-index: 1;
-        }
-        .error-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 28px;
-            box-shadow: 0 8px 32px var(--shadow-soft);
-            padding: 48px 40px;
-            text-align: center;
-            max-width: 480px;
-            width: 100%;
-        }
-        .error-code {
-            font-size: 88px;
-            font-weight: 700;
-            color: var(--button-warm);
-            margin: 0;
-            line-height: 1;
-        }
-        .error-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin: 16px 0 8px;
-        }
-        .error-text {
-            font-size: 15px;
-            color: var(--text-medium);
-            margin: 0 0 28px;
-            line-height: 1.6;
-        }
-        .back-link {
-            display: inline-block;
-            padding: 12px 28px;
-            border-radius: 999px;
-            background: var(--button-warm);
-            color: var(--button-text);
-            font-weight: 600;
-            font-size: 15px;
-            text-decoration: none;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-        .back-link:hover {
-            background: var(--button-warm-hover);
-            transform: translateY(-2px);
-        }
-    </style>
 </head>
 <body>
+    <header class="page-header">
+        <div class="clock-widget">
+            <img src="/assets/img/logo.png" alt="">
+            <span class="clock-time" id="clock">--:--</span>
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme">☀</button>
+        </div>
+    </header>
+
     <div class="error-wrap">
         <div class="error-card">
             <p class="error-code">404</p>
@@ -87,5 +40,13 @@
             <a class="back-link" href="/">Back to camp</a>
         </div>
     </div>
+
+    <button class="corner-character nadeshiko" type="button" aria-label="Say hi" data-tooltip="Say hi">
+        <img src="/assets/img/nadeshiko.webp" alt="">
+        <span class="nade-bubble" id="nadeBubble" role="status"></span>
+    </button>
+    <a class="corner-character rin" href="/gallery.html" aria-label="Photo gallery" data-tooltip="Open gallery">
+        <img src="/assets/img/rin.webp" alt="">
+    </a>
 </body>
 </html>
