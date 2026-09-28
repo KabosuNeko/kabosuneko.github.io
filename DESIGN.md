@@ -46,6 +46,13 @@ Dial: ENERGY 1 / RHYTHM 1 / MOTION 1
 - Rin is the only route to the gallery. A photos chip was tried in the contact list and dropped:
   a second path to the same page is noise, and the mascot already carries it.
 - Star counts come from the GitHub API, with the last known values in the HTML as fallback.
+- Nadeshiko opens a camp check: current weather plus the camp sites mapped in OpenStreetMap within
+  50 km, sorted by distance. It is the only part of the page that talks to a third party besides the
+  star counts, so it caches (20 minutes for weather, 24 hours for sites), gives up after 8-9 s, tries
+  a second Overpass mirror, and degrades to a single honest line when neither answer arrives.
+- Weather comes from Open-Meteo and sites from Overpass, both keyless. Their licences require
+  attribution, so the panel carries "© OpenStreetMap contributors · Weather: Open-Meteo.com" — not
+  decoration, a condition of using the data.
 
 ## Constraints
 
@@ -55,5 +62,7 @@ Dial: ENERGY 1 / RHYTHM 1 / MOTION 1
   a small touch target.
 - The 404 page carries the same header, theme toggle and mascots, so an error never lands the
   visitor on a page that looks like a different site.
+- The camp check asks for a location only after a click, waits 2.5 s at most, and names the place it
+  fell back to ("Hanoi (default)") rather than pretending the numbers are the visitor's.
 - WCAG AA contrast in both themes, keyboard reachable, visible focus.
 - No invented content: no fake numbers, no testimonials, no placeholder sections.

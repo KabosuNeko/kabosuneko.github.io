@@ -34,6 +34,7 @@
   --button-warm: #af3a03;
   --button-warm-hover: #8f2f00;
   --button-text: #fffaf0;
+  --hover-bg: rgba(60, 56, 54, 0.07);
   /* Three radii cover the page; circles stay 50% because avatar and icon buttons are round. */
   --radius-sm: 10px;
   --radius-md: 12px;
@@ -56,6 +57,7 @@
   --button-warm: #fe8019;
   --button-warm-hover: #fabd2f;
   --button-text: #1d2021;
+  --hover-bg: rgba(235, 219, 178, 0.09);
 }
 
 * {
@@ -530,6 +532,143 @@ body::after {
   100% { transform: translateY(0) scale(1, 1); }
 }
 
+/* Camp check: weather from Open-Meteo, camp sites from OpenStreetMap. It floats, so it keeps
+   the soft shadow that static cards no longer use. */
+.camp-panel {
+  position: fixed;
+  left: 16px;
+  bottom: 156px;
+  z-index: 200;
+  width: min(320px, calc(100vw - 32px));
+  max-height: min(70vh, 520px);
+  overflow: auto;
+  padding: 16px 18px 14px;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  background: var(--card-bg);
+  box-shadow: 0 10px 30px var(--shadow-soft);
+  font-size: 0.85rem;
+}
+
+.camp-panel[hidden] {
+  display: none;
+}
+
+.camp-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.camp-panel-title {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.camp-panel-close {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  padding: 0;
+  border: 1px solid var(--card-border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-medium);
+  cursor: pointer;
+}
+
+.camp-panel-close:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.camp-panel-close svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+}
+
+.camp-weather {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 2px;
+}
+
+.camp-weather-temp {
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.camp-weather-desc {
+  color: var(--text-medium);
+}
+
+.camp-meta,
+.camp-loc,
+.camp-panel-note {
+  margin: 0 0 10px;
+  font-size: 0.8rem;
+  color: var(--text-medium);
+}
+
+.camp-verdict {
+  margin: 0 0 14px;
+  font-weight: 700;
+}
+
+.camp-list {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+}
+
+.camp-list li + li {
+  margin-top: 2px;
+}
+
+.camp-list a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 8px;
+  margin: 0 -8px;
+  border-radius: var(--radius-sm);
+}
+
+.camp-list a:hover {
+  background: var(--hover-bg);
+  color: var(--accent);
+}
+
+.camp-dist {
+  flex: none;
+  color: var(--text-medium);
+  font-variant-numeric: tabular-nums;
+}
+
+.camp-credit {
+  margin: 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--card-border);
+  font-size: 0.72rem;
+  color: var(--text-medium);
+}
+
+.camp-credit a {
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
   .wrap {
     padding: 0 20px 120px;
@@ -590,6 +729,10 @@ body::after {
 
   .corner-character {
     bottom: 8px;
+  }
+
+  .camp-panel {
+    bottom: 94px;
   }
 }
 

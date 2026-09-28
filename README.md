@@ -14,7 +14,7 @@ No build step, no dependencies, no framework. Plain HTML, CSS, and JavaScript.
     sitemap.xml         indexable URLs
     DESIGN.md           design direction, dials, and the reason for each decision
     assets/css/         styles.css (shared, theme tokens, font faces), gallery.css (grid, lightbox)
-    assets/js/          app.js (theme, clock, toast, greeting, star counts), gallery.js (lightbox)
+    assets/js/          app.js (theme, clock, toast, greeting, star counts, camp check), gallery.js (lightbox)
     assets/fonts/       Nunito subsets, self-hosted
     assets/img/         logo, avatar, mascots
     assets/gallery/     photos and their display variants
@@ -39,6 +39,21 @@ The `sizes` attribute matches the grid in `gallery.css`, which is one column up 
     sizes="(min-width: 1024px) 333px, (min-width: 640px) calc(50vw - 34px), calc(100vw - 42px)"
 
 The first photo in the grid loads eagerly with `fetchpriority="high"`; the rest stay `loading="lazy"`.
+
+## Camp check
+
+Clicking Nadeshiko opens a panel with the weather and the camp sites mapped in OpenStreetMap within
+50 km. It asks the browser for a location only after that click and gives up after 2.5 s, falling back
+to `DEFAULT_PLACE` in `assets/js/app.js` (Hanoi) and saying so in the panel.
+
+Two keyless services are involved, both of which require attribution that the panel displays:
+
+- weather: `api.open-meteo.com`, cached 20 minutes per rounded coordinate
+- camp sites: `overpass-api.de` with `overpass.kumi.systems` as a second try, cached 24 hours
+
+The radius is `RADIUS_M` and the fallback place is `DEFAULT_PLACE`, both in `assets/js/app.js`. If
+both services fail the panel says so instead of showing an empty box; the greeting bubble is
+unchanged and still fires on load.
 
 ## Running
 
